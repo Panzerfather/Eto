@@ -153,7 +153,9 @@ namespace Eto.Forms
 		/// <param name="parent">Parent control that is showing the form</param>
 		public void ShowModal(Control parent = null)
 		{
-			var loaded = Loaded;
+			base.Parent = parent as Container;
+
+			bool loaded = Loaded;
 			if (!loaded)
 			{
 				OnPreLoad(EventArgs.Empty);
@@ -163,6 +165,7 @@ namespace Eto.Forms
 			}
 
 			Application.Instance.AddWindow(this);
+            
 			Handler.ShowModal(parent);
 		}
 
@@ -176,7 +179,9 @@ namespace Eto.Forms
 		/// <param name="parent">Parent control that is showing the form</param>
 		public Task ShowModalAsync(Control parent = null)
 		{
-			var loaded = Loaded;
+			base.Parent = parent as Container;
+			
+			bool loaded = Loaded;
 			if (!loaded)
 			{
 				OnPreLoad(EventArgs.Empty);
