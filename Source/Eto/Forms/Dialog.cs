@@ -153,7 +153,7 @@ namespace Eto.Forms
 		/// <param name="parent">Parent control that is showing the form</param>
 		public void ShowModal(Control parent = null)
 		{
-			base.Parent = parent as Container;
+			base.Owner = parent as Window;
 
 			bool loaded = Loaded;
 			if (!loaded)

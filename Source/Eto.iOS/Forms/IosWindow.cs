@@ -162,6 +162,18 @@ namespace Eto.iOS.Forms
 
 		public abstract string Title { get; set; }
 
+		public Window Owner
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		public Screen Screen
 		{
 			get { return Screen.PrimaryScreen; }

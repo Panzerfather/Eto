@@ -37,6 +37,7 @@ namespace Eto.GtkSharp.Forms
 		WindowState state;
 		WindowStyle style;
 		bool topmost;
+		Window owner;
 
 		protected GtkWindow()
 		{
@@ -562,6 +563,18 @@ namespace Eto.GtkSharp.Forms
 		}
 
 		Gtk.Window IGtkWindow.Control { get { return Control; } }
+
+		public Window Owner
+		{
+			get
+			{
+				return owner;
+			}
+			set
+			{
+				owner = value;
+			}
+		}
 
 		public Screen Screen
 		{

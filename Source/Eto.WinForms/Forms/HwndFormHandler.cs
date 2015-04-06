@@ -119,6 +119,18 @@ namespace Eto.WinForms.Forms
       }
     }
 
+	public Window Owner
+	{
+		get
+		{
+			throw new NotImplementedException();
+		}
+		set
+		{
+			throw new NotImplementedException();
+		}
+	}
+
     public Screen Screen
     {
       get { throw new NotImplementedException(); }

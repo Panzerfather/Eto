@@ -249,6 +249,16 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
+		/// Gets or sets the owner of this window.
+		/// </summary>
+		/// <value>The window owner.</value>
+		public Window Owner
+		{
+			get { return Handler.Owner; }
+			set { Handler.Owner = value; }
+		}
+
+		/// <summary>
 		/// Gets the screen this window is mostly contained in. Typically defined by the screen center of the window is visible.
 		/// </summary>
 		/// <value>The window's current screen.</value>
@@ -383,7 +393,7 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
-        /// Sets <see cref="WindowState"/> to <see cref="Eto.Forms.WindowState.Minimized"/>
+        	/// Sets <see cref="WindowState"/> to <see cref="Eto.Forms.WindowState.Minimized"/>
 		/// </summary>
 		public void Minimize()
 		{
@@ -540,6 +550,12 @@ namespace Eto.Forms
 			/// </remarks>
 			/// <value>The title of the window</value>
 			string Title { get; set; }
+
+			/// <summary>
+			/// Gets or sets the owner for this window
+			/// </summary>
+			/// <value>The window's current owner.</value>
+			Window Owner { get; set; }
 
 			/// <summary>
 			/// Gets the screen this window is mostly contained in. Typically defined by the screen center of the window is visible.
