@@ -153,7 +153,7 @@ namespace Eto.Forms
 		/// <param name="parent">Parent control that is showing the form</param>
 		public void ShowModal(Control parent = null)
 		{
-			base.Owner = parent as Window;
+			base.Owner = parent != null ? parent.ParentWindow : null;
 
 			bool loaded = Loaded;
 			if (!loaded)
@@ -179,7 +179,7 @@ namespace Eto.Forms
 		/// <param name="parent">Parent control that is showing the form</param>
 		public Task ShowModalAsync(Control parent = null)
 		{
-			base.Parent = parent as Container;
+			base.Owner = parent != null ? parent.ParentWindow : null;
 			
 			bool loaded = Loaded;
 			if (!loaded)
