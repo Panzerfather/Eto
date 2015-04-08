@@ -145,7 +145,6 @@ namespace Eto.Mac.Forms
 		bool topmost;
 		bool setInitialPosition = true;
 		Point? oldLocation;
-		Window owner;
 
 		Window.ICallback IMacWindow.Callback { get { return Callback; } }
 
@@ -844,18 +843,6 @@ namespace Eto.Mac.Forms
 		}
 
 		#endregion
-
-		public Window Owner
-		{
-			get
-			{
-				return owner;
-			}
-			set
-			{
-				owner = value;
-			}
-		}
 
 		public Screen Screen
 		{

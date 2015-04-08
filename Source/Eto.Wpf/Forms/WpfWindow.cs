@@ -35,7 +35,6 @@ namespace Eto.Wpf.Forms
 		bool resizable = true;
 		bool maximizable = true;
 		bool minimizable = true;
-		Window owner;
 
 		public override IntPtr NativeHandle
 		{
@@ -482,18 +481,6 @@ namespace Eto.Wpf.Forms
 		{
 			get { return content.Background.ToEtoColor(); }
 			set { content.Background = value.ToWpfBrush(content.Background); }
-		}
-
-		public Window Owner
-		{
-			get
-			{
-				return owner;
-			}
-			set
-			{
-				owner = value;
-			}
 		}
 
 		public Screen Screen

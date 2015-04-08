@@ -30,8 +30,10 @@ namespace Eto.Forms
 		/// <summary>
 		/// Show the form
 		/// </summary>
-		public void Show()
-		{ 
+		public void Show(Window owner = null)
+		{
+			base.Owner = owner;
+
 			var loaded = Loaded;
 			if (!loaded)
 			{

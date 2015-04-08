@@ -30,7 +30,6 @@ namespace Eto.WinForms.Forms
 		readonly swf.ToolTip tooltips = new swf.ToolTip();
 		bool resizable;
 		bool clientSizeSet;
-		Window owner;
 
 		public override swf.Control ContainerContentControl
 		{
@@ -414,18 +413,6 @@ namespace Eto.WinForms.Forms
 		public void SendToBack()
 		{
 			Control.SendToBack();
-		}
-
-		public Window Owner
-		{
-			get
-			{
-				return owner;
-			}
-			set
-			{
-				owner = value;
-			}
 		}
 
 		public Screen Screen

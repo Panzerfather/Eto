@@ -118,6 +118,30 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
+		/// Identifier for handlers when attaching the <see cref="OwnerChanged"/> event.
+		/// </summary>
+		EventHandler<EventArgs> OwnerChangedEvent;
+
+		/// <summary>
+		/// Occurs when the <see cref="Owner"/> is changed.
+		/// </summary>
+		public event EventHandler<EventArgs> OwnerChanged
+		{
+			add { OwnerChangedEvent += value; }
+			remove { OwnerChangedEvent -= value; }
+		}
+
+		/// <summary>
+		/// Raises the <see cref="OwnerChanged"/> event.
+		/// </summary>
+		/// <param name="e">Event arguments</param>
+		protected virtual void OnOwnerChanged(EventArgs e)
+		{
+			if (OwnerChangedEvent != null)
+				OwnerChangedEvent(this, e);
+		}
+
+		/// <summary>
 		/// Identifier for handlers when attaching the <see cref="WindowStateChanged"/> event.
 		/// </summary>
 		public const string WindowStateChangedEvent = "Window.WindowStateChanged";
@@ -139,6 +163,12 @@ namespace Eto.Forms
 		{
 			Properties.TriggerEvent(WindowStateChangedEvent, this, e);
 		}
+
+		#endregion
+
+		#region Properties
+
+		Window owner;
 
 		#endregion
 
@@ -251,11 +281,22 @@ namespace Eto.Forms
 		/// <summary>
 		/// Gets or sets the owner of this window.
 		/// </summary>
-		/// <value>The window owner.</value>
+		/// <value>The window style.</value>
+		/// <summary>
+		/// Gets or sets a value indicating whether this command is checked.
+		/// </summary>
+		/// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
 		public Window Owner
 		{
-			get { return Handler.Owner; }
-			set { Handler.Owner = value; }
+			get { return this.owner; }
+			set
+			{
+				if (this.owner != value)
+				{
+					this.owner = value;
+					OnOwnerChanged(EventArgs.Empty);
+				}
+			}
 		}
 
 		/// <summary>
@@ -393,7 +434,7 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
-        	/// Sets <see cref="WindowState"/> to <see cref="Eto.Forms.WindowState.Minimized"/>
+		/// Sets <see cref="WindowState"/> to <see cref="Eto.Forms.WindowState.Minimized"/>
 		/// </summary>
 		public void Minimize()
 		{
@@ -550,12 +591,6 @@ namespace Eto.Forms
 			/// </remarks>
 			/// <value>The title of the window</value>
 			string Title { get; set; }
-
-			/// <summary>
-			/// Gets or sets the owner for this window
-			/// </summary>
-			/// <value>The window's current owner.</value>
-			Window Owner { get; set; }
 
 			/// <summary>
 			/// Gets the screen this window is mostly contained in. Typically defined by the screen center of the window is visible.

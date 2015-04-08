@@ -45,7 +45,6 @@ namespace Eto.WinRT.Forms
 		bool resizable = true;
 		bool maximizable = true;
 		bool minimizable = true;
-		Window owner;
 
 		protected override void Initialize ()
 		{
@@ -463,18 +462,6 @@ namespace Eto.WinRT.Forms
 		{
 			get { return Control.Background.ToEtoColor(); }
 			set { Control.Background = value.ToWpfBrush(Control.Background); }
-		}
-
-		public Window Owner
-		{
-			get
-			{
-				return owner;
-			}
-			set
-			{
-				owner = value;
-			}
 		}
 
 		public Screen Screen
