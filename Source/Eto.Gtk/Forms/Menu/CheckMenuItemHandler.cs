@@ -57,9 +57,7 @@ namespace Eto.GtkSharp.Forms.Menu
 			get { return text; }
 			set
 			{
-				text = value;
-				string val = text;
-				label.Text = GtkControl<Gtk.Widget, Control, Control.ICallback>.StringToMnuemonic(val);
+				label.Text = value.ToPlatformMnemonic();
 				label.UseUnderline = true;
 			}
 		}

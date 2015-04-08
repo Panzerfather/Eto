@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Text;
 using Eto.Drawing;
 using Eto.Forms;
 using swi = System.Windows.Input;
@@ -10,7 +9,6 @@ using sp = System.Printing;
 using swc = System.Windows.Controls;
 using swmi = System.Windows.Media.Imaging;
 using swd = System.Windows.Documents;
-using System.Text.RegularExpressions;
 using Eto.Wpf.Drawing;
 
 namespace Eto.Wpf
