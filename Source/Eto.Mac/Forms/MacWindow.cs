@@ -197,11 +197,6 @@ namespace Eto.Mac.Forms
 			get { return menuBar == null ? null : menuBar.ControlObject as NSMenu; }
 		}
 
-		protected MacWindow()
-		{
-			AutoSize = true;
-		}
-
 		protected override void Initialize()
 		{
 			base.Initialize();
@@ -593,7 +588,10 @@ namespace Eto.Mac.Forms
 
 		public virtual void Close()
 		{
-			Control.Close();
+			var args = new CancelEventArgs();
+			Callback.OnClosing(Widget, args);
+			if (!args.Cancel)
+				Control.Close();
 		}
 
 		public Eto.Forms.ToolBar ToolBar

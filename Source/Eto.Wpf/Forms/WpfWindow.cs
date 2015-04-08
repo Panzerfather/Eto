@@ -101,8 +101,8 @@ namespace Eto.Wpf.Forms
 							// last window closing, so call OnTerminating to let the app abort terminating
 							var app = ((ApplicationHandler)Application.Instance.Handler);
 							app.Callback.OnTerminating(app.Widget, args);
-							e.Cancel = args.Cancel;
 						}
+						e.Cancel = args.Cancel;
 					};
 					break;
 				case Window.WindowStateChangedEvent:
@@ -410,7 +410,7 @@ namespace Eto.Wpf.Forms
 
 		public Rectangle? RestoreBounds
 		{
-			get { return Control.RestoreBounds.ToEto(); }
+			get { return Control.RestoreBounds.IsEmpty ? (Rectangle?)null : Control.RestoreBounds.ToEto(); }
 		}
 
 		sw.Window IWpfWindow.Control
