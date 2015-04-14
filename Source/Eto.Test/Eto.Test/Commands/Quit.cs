@@ -10,6 +10,7 @@ namespace Eto.Test.Commands
 		{
 			ID = "quit";
 			MenuText = "&Quit";
+			MenuButtonType = ButtonType.Quit;
 			ToolBarText = "Quit";
 			ToolTip = "Close the application";
 			Shortcut = Keys.Q | Application.Instance.CommonModifier;

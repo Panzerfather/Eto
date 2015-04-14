@@ -220,6 +220,11 @@ namespace Eto.Forms
 		public string MenuText { get; set; }
 
 		/// <summary>
+		/// Gets or sets the order the menu item.
+		/// </summary>
+		public int Order { get; set; }
+
+		/// <summary>
 		/// Gets or sets the tool bar text.
 		/// </summary>
 		/// <value>The tool bar text.</value>
@@ -246,6 +251,12 @@ namespace Eto.Forms
 		/// </summary>
 		/// <value>The command shortcut.</value>
 		public Keys Shortcut { get; set; }
+
+		/// <summary>
+		/// Gets or sets the button type of this command.
+		/// </summary>
+		/// <value>The menu text.</value>
+		public ButtonType MenuButtonType { get; set; }
 
 		#endregion
 

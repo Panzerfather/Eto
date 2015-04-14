@@ -13,6 +13,7 @@ namespace Eto.Test.Commands
 			MenuText = "About Test Application";
 			ToolBarText = "About";
 			Shortcut = Keys.F11;
+			MenuButtonType = ButtonType.Help;
 		}
 
 		protected override void OnExecuted(EventArgs e)

@@ -89,48 +89,6 @@ namespace Eto.Forms
 		/// <value>The menu items</value>
 		public MenuItemCollection Items { get { return items ?? (items = new MenuItemCollection(Handler, this)); } }
 
-		static readonly object QuitItemKey = new object();
-
-		/// <summary>
-		/// Gets or sets the quit item for the application.
-		/// </summary>
-		/// <remarks>
-		/// This allows you to set the quit item for the application.  Some platforms (OS X) may add a quit item
-		/// to the menu even if one is not defined as it is standard practice to allow users to quit the application with
-		///  a menu item.
-		/// This will be in the File menu for most platforms, and the Application menu for OS X.
-		/// </remarks>
-		/// <value>The quit item on the menu.</value>
-		public MenuItem QuitItem
-		{
-			get { return Properties.Get<MenuItem>(QuitItemKey); }
-			set
-			{ 
-				Properties[QuitItemKey] = value;
-				Handler.SetQuitItem(value);
-			}
-		}
-
-		static readonly object AboutItemKey = new object();
-
-		/// <summary>
-		/// Gets or sets the item to show an about dialog for the application
-		/// </summary>
-		/// <remarks>
-		/// This allows you to set an item to show an about dialog for the application.
-		/// OS X will place this in the Application menu, other platforms place this at the bottom of the Help menu.
-		/// </remarks>
-		/// <value>The about item on the menu.</value>
-		public MenuItem AboutItem
-		{
-			get { return Properties.Get<MenuItem>(AboutItemKey); }
-			set
-			{ 
-				Properties[AboutItemKey] = value;
-				Handler.SetAboutItem(value);
-			}
-		}
-
 		/// <summary>
 		/// Gets the menu that contains application-level items.
 		/// </summary>
@@ -268,28 +226,6 @@ namespace Eto.Forms
 			/// </remarks>
 			/// <value>The help menu.</value>
 			ButtonMenuItem HelpMenu { get; }
-
-			/// <summary>
-			/// Gets or sets the quit item for the application.
-			/// </summary>
-			/// <remarks>
-			/// This allows you to set the quit item for the application.  Some platforms (OS X) may add a quit item
-			/// to the menu even if one is not defined as it is standard practice to allow users to quit the application with
-			///  a menu item.
-			/// This will be in the File menu for most platforms, and the Application menu for OS X.
-			/// </remarks>
-			/// <value>The quit item on the menu.</value>
-			void SetQuitItem(MenuItem item);
-
-			/// <summary>
-			/// Gets or sets the item to show an about dialog for the application
-			/// </summary>
-			/// <remarks>
-			/// This allows you to set an item to show an about dialog for the application.
-			/// OS X will place this in the Application menu, other platforms place this at the bottom of the Help menu.
-			/// </remarks>
-			/// <value>The about item on the menu.</value>
-			void SetAboutItem(MenuItem item);
 
 			/// <summary>
 			/// Creates the system menu when it is loaded onto a window for the first time.

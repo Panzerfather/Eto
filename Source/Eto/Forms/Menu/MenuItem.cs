@@ -43,6 +43,15 @@ namespace Eto.Forms
 	/// <license type="BSD-3">See LICENSE for full terms</license>
 	public abstract class MenuItem : Menu, ICommandItem
 	{
+		new IHandler Handler { get { return (IHandler)base.Handler; } }
+
+		/// <summary>
+		/// Occurs when the user clicks or selects the menu item.
+		/// </summary>
+		public event EventHandler<EventArgs> Click;
+
+		#region Properties
+
 		/// <summary>
 		/// Gets or sets the order that the menu item should use when inserted into a submenu.
 		/// </summary>
@@ -54,12 +63,12 @@ namespace Eto.Forms
 		/// <value>The order to use when inserting into the submenu.</value>
 		public int Order { get; set; }
 
-		new IHandler Handler { get { return (IHandler)base.Handler; } }
-
 		/// <summary>
-		/// Occurs when the user clicks or selects the menu item.
+		/// Gets or sets the button type of the item.
 		/// </summary>
-		public event EventHandler<EventArgs> Click;
+		private ButtonType menuButtonType = ButtonType.Normal;
+
+		#endregion
 
 		/// <summary>
 		/// Raises the <see cref="Click"/> event.
@@ -122,10 +131,19 @@ namespace Eto.Forms
 			Text = command.MenuText;
 			ToolTip = command.ToolTip;
 			Shortcut = command.Shortcut;
+			MenuButtonType = command.MenuButtonType;
 			Click += (sender, e) => command.Execute();
 			Validate += (sender, e) => Enabled = command.Enabled;
 			Enabled = command.Enabled;
 			command.EnabledChanged += (sender, e) => Enabled = command.Enabled;
+			if (command.MenuButtonType != ButtonType.Normal)
+			{
+				this.Order = (int)command.MenuButtonType;
+			}
+			else
+			{
+				this.Order = command.Order;
+			}
 		}
 
 		static MenuItem()
@@ -177,6 +195,16 @@ namespace Eto.Forms
 		{
 			get { return Handler.Shortcut; }
 			set { Handler.Shortcut = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the button type of the menu item.
+		/// </summary>
+		/// <value>The shortcut key.</value>
+		public ButtonType MenuButtonType
+		{
+			get { return this.menuButtonType; }
+			set { this.menuButtonType = value; }
 		}
 
 		/// <summary>

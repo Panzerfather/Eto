@@ -169,9 +169,6 @@ namespace Eto.Test
 
 		void CreateMenuToolBar()
 		{
-			var about = new Commands.About();
-			var quit = new Commands.Quit();
-
 			if (Platform.Supports<MenuBar>())
 			{
 				Menu = new MenuBar
@@ -179,10 +176,30 @@ namespace Eto.Test
 					Items =
 					{
 						// custom top-level menu items
-						new ButtonMenuItem { Text = "&File", Items = { new Command { MenuText = "File Command" } } },
-						new ButtonMenuItem { Text = "&Edit", Items = { new Command { MenuText = "Edit Command" } } },
-						new ButtonMenuItem { Text = "&View", Items = { new Command { MenuText = "View Command" } } },
+						new ButtonMenuItem
+						{
+							Text = "&File",
+							Items =
+							{
+								new Command { MenuText = "File Command", MenuButtonType = ButtonType.Normal },
+								new SeparatorMenuItem { Order = 999 },
+								new Commands.Quit(),
+								new Command { MenuText = "Declared below Quit, but will be reorderd above it", MenuButtonType = ButtonType.Normal }
+							}
+						},
+						new ButtonMenuItem { Text = "&Edit", Items = { new Command { MenuText = "Edit Command", MenuButtonType = ButtonType.Normal } } },
+						new ButtonMenuItem { Text = "&View", Items = { new Command { MenuText = "View Command", MenuButtonType = ButtonType.Normal } } },
 						new ButtonMenuItem { Text = "&Window", Order = 1000, Items = { new Command { MenuText = "Window Command" } } },
+						new ButtonMenuItem
+						{
+							Text = "&Help",
+							Items =
+							{
+								new Command { MenuText = "Help Command", MenuButtonType = ButtonType.Normal },
+								new SeparatorMenuItem { Order = 999 },
+								new Commands.About(),
+							}
+						},
 					},
 					ApplicationItems =
 					{
@@ -193,9 +210,7 @@ namespace Eto.Test
 					HelpItems =
 					{
 						new Command { MenuText = "Help Command" }
-					},
-					QuitItem = quit,
-					AboutItem = about
+					}
 				};
 			}
 
@@ -204,7 +219,7 @@ namespace Eto.Test
 				// create and set the toolbar
 				ToolBar = new ToolBar();
 
-				ToolBar.Items.Add(about);
+				ToolBar.Items.Add(new Commands.About());
 				if (Platform.Supports<CheckToolItem>())
 				{
 					ToolBar.Items.Add(new SeparatorToolItem { Type = SeparatorToolItemType.Divider });

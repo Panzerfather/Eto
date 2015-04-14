@@ -6,6 +6,26 @@ using System.Linq;
 namespace Eto.Forms
 {
 	/// <summary>
+	/// Flags for the groups of system <see cref="MenuBar"/> items
+	/// </summary>
+	[Flags]
+	public enum ButtonType
+	{
+		/// <summary>
+		/// Button is a normal menu button
+		/// </summary>
+		Normal = 0,
+		/// <summary>
+		/// Button is platform help menu button
+		/// </summary>
+		Help = 1000,
+		/// <summary>
+		/// Button is platform quit menu button
+		/// </summary>
+		Quit = 1000,
+	}
+
+	/// <summary>
 	/// Menu item for a button / submenu
 	/// </summary>
 	/// <copyright>(c) 2014 by Curtis Wensley</copyright>
@@ -29,6 +49,12 @@ namespace Eto.Forms
 		/// </summary>
 		/// <remarks>Trimming will collapse any duplicate splitter items. This is done so that you can easily merge your menus.</remarks>
 		public bool Trim { get; set; }
+
+		/// <summary>
+		/// Gets or sets the button type of this button item.
+		/// </summary>
+		/// <remarks>Trimming will collapse any duplicate splitter items. This is done so that you can easily merge your menus.</remarks>
+		//public ButtonType MenuButtonType { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Eto.Forms.ButtonMenuItem"/> class.

@@ -63,30 +63,6 @@ namespace Eto.Mac.Forms.Menu
 			get { return Widget.Items.GetSubmenu("&Help", 1000); }
 		}
 
-		MenuItem quitItem;
-		public void SetQuitItem(MenuItem item)
-		{
-			item.Order = 1000;
-			var appMenu = ApplicationMenu;
-			if (quitItem != null)
-				appMenu.Items.Remove(quitItem);
-			appMenu.Items.Add(item);
-			quitItem = item;
-		}
-
-		MenuItem aboutItem;
-		public void SetAboutItem(MenuItem item)
-		{
-			item.Order = -100;
-			var appMenu = ApplicationMenu;
-			if (aboutItem != null)
-				appMenu.Items.Remove(aboutItem);
-			appMenu.Items.Add(item);
-			if (aboutItem == null)
-				appMenu.Items.AddSeparator(item.Order);
-			aboutItem = item;
-		}
-
 		public IEnumerable<Command> GetSystemCommands()
 		{
 			var appName = Application.Instance.Name ?? NSRunningApplication.CurrentApplication.LocalizedName;
@@ -143,9 +119,10 @@ namespace Eto.Mac.Forms.Menu
 		{
 			var items = Widget.Items;
 			var lookup = Widget.SystemCommands.ToLookup(r => r.ID);
-			if (Widget.IncludeSystemItems.HasFlag(MenuBarSystemItems.Quit) && quitItem == null)
+			var application = ApplicationMenu;
+
+			if (Widget.IncludeSystemItems.HasFlag(MenuBarSystemItems.Quit) && application.Items.Count(c => c.MenuButtonType == ButtonType.Quit) == 0)
 			{
-				var application = ApplicationMenu;
 				var quitCommand = new Command { MenuText = "Quit", Shortcut = Keys.Application | Keys.Q };
 				quitCommand.Executed += (sender, e) => Application.Instance.Quit();
 				application.Items.AddSeparator(999);
@@ -153,7 +130,6 @@ namespace Eto.Mac.Forms.Menu
 			}
 			if (Widget.IncludeSystemItems.HasFlag(MenuBarSystemItems.Common))
 			{
-				var application = ApplicationMenu;
 				application.Items.AddSeparator(800);
 				application.Items.AddRange(lookup["mac_hide"], 800);
 				application.Items.AddRange(lookup["mac_hideothers"], 800);

@@ -95,15 +95,10 @@ namespace Eto.Forms
 		/// <param name="item">Menu item to add</param>
 		public new void Add(MenuItem item)
 		{
-			int previousIndex = -1;
-			for (var i = 0; i < Count; ++i)
-			{
-				if (this[i].Order <= item.Order)
-					previousIndex = i;
-				else
-					break;
-			}
-			Insert(previousIndex + 1, item);
+			var previousItem = this.Where(c => c.Order <= item.Order).OrderBy(c => c.Order).LastOrDefault();
+			var previous = this.IndexOf(previousItem);
+
+			Insert(previous + 1, item);
 		}
 
 		/// <summary>
@@ -111,7 +106,7 @@ namespace Eto.Forms
 		/// </summary>
 		/// <param name="command">Command to add.</param>
 		/// <param name="order">Order of the command to add.</param>
-		public MenuItem Add(Command command, int order = 0)
+		public MenuItem Add(Command command, int order)
 		{
 			var item = command.CreateMenuItem();
 			item.Order = order;
@@ -149,7 +144,7 @@ namespace Eto.Forms
 		{
 			foreach (var command in commands)
 			{
-				Add(command, order);
+				Add(command, order++);
 			}
 		}
 
@@ -167,7 +162,7 @@ namespace Eto.Forms
 			Func<string, string> convert = s => plaintextMatch ? s.Replace("&", "") : s;
 
 			var matchText = convert(submenuText);
-			var submenu = this.OfType<ButtonMenuItem>().FirstOrDefault(r => convert(r.Text) == matchText);
+			var submenu = this.OfType<ButtonMenuItem>().OrderBy(c => c.Order).FirstOrDefault(r => convert(r.Text) == matchText);
 
 			if (submenu == null && create)
 			{
