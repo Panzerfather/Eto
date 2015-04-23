@@ -1,5 +1,6 @@
-using Eto.Forms;
 using System;
+using Eto.Drawing;
+using Eto.Forms;
 #if XAMMAC2
 using AppKit;
 using Foundation;
@@ -90,6 +91,12 @@ namespace Eto.Mac.Forms.ToolBar
 
 		public void CreateFromCommand(Command command)
 		{
+		}
+
+		public Size ImageScalingSize
+		{
+			get { return new Size(0, 0); }
+			set { throw new NotSupportedException(); }
 		}
 
 		public string Text

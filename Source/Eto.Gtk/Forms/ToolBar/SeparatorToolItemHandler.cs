@@ -1,3 +1,4 @@
+using System;
 using Eto.Forms;
 
 namespace Eto.GtkSharp.Forms.ToolBar
@@ -8,11 +9,15 @@ namespace Eto.GtkSharp.Forms.ToolBar
 
 		public override void CreateControl(ToolBarHandler handler, int index)
 		{
-			Gtk.Toolbar tb = handler.Control;
+			Gtk.Toolbar toolbar = handler.Control;
+
 			Control = new Gtk.SeparatorToolItem();
+
 			SetType();
-			tb.Insert(Control, index);
-			if (tb.Visible)
+
+			toolbar.Insert(Control, index);
+
+			if (toolbar.Visible)
 				Control.ShowAll();
 		}
 

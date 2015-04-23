@@ -21,6 +21,24 @@ namespace Eto.WinRT.Forms.ToolBar
 			Type = SeparatorToolItemType.Divider;
 		}
 
+		public override bool Enabled
+		{
+			get { return false; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override Image Image
+		{
+			get { return null; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override Size ImageScalingSize
+		{
+			get { return new Size(0, 0); }
+			set { throw new NotSupportedException(); }
+		}
+
 		public SeparatorToolItemType Type
 		{
 			get
@@ -33,7 +51,7 @@ namespace Eto.WinRT.Forms.ToolBar
 					return SeparatorToolItemType.Space;
 				return SeparatorToolItemType.FlexibleSpace;
 #else
-					throw new NotImplementedException();
+				throw new NotImplementedException();
 #endif
 			}
 			set
@@ -59,28 +77,15 @@ namespace Eto.WinRT.Forms.ToolBar
 			}
 		}
 
-
 		public override string Text
 		{
-			get { return null; }
+			get { return string.Empty; }
 			set { throw new NotSupportedException(); }
 		}
 
 		public override string ToolTip
 		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public override Image Image
-		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public override bool Enabled
-		{
-			get { return false; }
+			get { return string.Empty; }
 			set { throw new NotSupportedException(); }
 		}
 	}

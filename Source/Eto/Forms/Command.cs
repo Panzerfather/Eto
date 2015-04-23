@@ -208,6 +208,12 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
+		/// Gets or sets the image scaling size.
+		/// </summary>
+		/// <value>The image scaling size.</value>
+		public Size ImageScalingSize { get; set; }
+
+		/// <summary>
 		/// Gets or sets a user-defined tag value for this instance.
 		/// </summary>
 		/// <value>The tag.</value>

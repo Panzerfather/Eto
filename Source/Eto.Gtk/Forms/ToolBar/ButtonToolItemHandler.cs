@@ -5,33 +5,6 @@ namespace Eto.GtkSharp.Forms.ToolBar
 {
 	public class ButtonToolItemHandler : ToolItemHandler<Gtk.ToolButton, ButtonToolItem>, ButtonToolItem.IHandler
 	{
-
-		#region IToolBarButton Members
-
-		
-		#endregion
-
-		public override void CreateControl(ToolBarHandler handler, int index)
-		{
-			Gtk.Toolbar tb = handler.Control;
-
-			Control = new Gtk.ToolButton(GtkImage, Text);
-			Control.IsImportant = true;
-			Control.Sensitive = Enabled;
-			Control.TooltipText = this.ToolTip;
-			//control.CanFocus = false;			// why is this disabled and not true???
-			tb.Insert(Control, index);
-			if (tb.Visible) Control.ShowAll();
-			Control.Clicked += Connector.HandleClicked;
-		}
-
-		protected new ButtonToolItemConnector Connector { get { return (ButtonToolItemConnector)base.Connector; } }
-
-		protected override WeakConnector CreateConnector()
-		{
-			return new ButtonToolItemConnector();
-		}
-
 		protected class ButtonToolItemConnector : WeakConnector
 		{
 			public new ButtonToolItemHandler Handler { get { return (ButtonToolItemHandler)base.Handler; } }
@@ -40,6 +13,36 @@ namespace Eto.GtkSharp.Forms.ToolBar
 			{
 				Handler.Widget.OnClick(e);
 			}
+		}
+
+		protected new ButtonToolItemConnector Connector
+		{
+			get { return (ButtonToolItemConnector)base.Connector; }
+		}
+
+		protected override WeakConnector CreateConnector()
+		{
+			return new ButtonToolItemConnector();
+		}
+
+		public override void CreateControl(ToolBarHandler handler, int index)
+		{
+			Gtk.Toolbar toolbar = handler.Control;
+
+			Control = new Gtk.ToolButton(GtkImage, Text)
+			{
+				CanFocus = false,
+				IsImportant = true,
+				Sensitive = Enabled,
+				TooltipText = this.ToolTip
+			};
+
+			toolbar.Insert(Control, index);
+
+			if (toolbar.Visible)
+				Control.ShowAll();
+
+			Control.Clicked += Connector.HandleClicked;
 		}
 	}
 }

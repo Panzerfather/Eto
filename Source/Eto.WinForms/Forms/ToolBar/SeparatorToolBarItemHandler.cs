@@ -1,15 +1,46 @@
-using SD = System.Drawing;
-using SWF = System.Windows.Forms;
-using Eto.Forms;
 using System;
+using Eto.Drawing;
+using Eto.Forms;
+using sd = System.Drawing;
+using swf = System.Windows.Forms;
 
 namespace Eto.WinForms.Forms.ToolBar
 {
-	public class SeparatorToolBarItemHandler : WidgetHandler<SWF.ToolStripSeparator, SeparatorToolItem>, SeparatorToolItem.IHandler, IToolBarItemHandler
+	public class SeparatorToolBarItemHandler : ToolItemHandler<swf.ToolStripSeparator, SeparatorToolItem>, SeparatorToolItem.IHandler
 	{
 		public SeparatorToolBarItemHandler()
 		{
-			Control = new SWF.ToolStripSeparator();
+			Control = new swf.ToolStripSeparator();
+		}
+
+		public override bool Enabled
+		{
+			get { return false; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override Image Image
+		{
+			get { return null; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override Size ImageScalingSize
+		{
+			get { return new Size(0, 0); }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override string Text
+		{
+			get { return string.Empty; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override string ToolTip
+		{
+			get { return string.Empty; }
+			set { throw new NotSupportedException(); }
 		}
 
 		public SeparatorToolItemType Type
@@ -30,39 +61,6 @@ namespace Eto.WinForms.Forms.ToolBar
 						break;
 				}
 			}
-		}
-
-		public void CreateControl(ToolBarHandler handler, int index)
-		{
-			handler.Control.Items.Insert(index, Control);
-		}
-
-		public string Text
-		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public string ToolTip
-		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public Eto.Drawing.Image Image
-		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public bool Enabled
-		{
-			get { return false; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public void CreateFromCommand(Command command)
-		{
 		}
 	}
 }

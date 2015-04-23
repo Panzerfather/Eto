@@ -5,38 +5,14 @@ namespace Eto.GtkSharp.Forms.ToolBar
 {
 	public class RadioToolItemHandler : ToolItemHandler<Gtk.RadioToolButton, RadioToolItem>, RadioToolItem.IHandler
 	{
-		bool ischecked;
-
-		public bool Checked
+		protected class RadioToolItemConnector : WeakConnector
 		{
-			get { return (Control != null) ? Control.Active : ischecked; }
-			set
+			public new RadioToolItemHandler Handler { get { return (RadioToolItemHandler)base.Handler; } }
+
+			public void HandleToggled(object sender, EventArgs e)
 			{
-				if (value != ischecked)
-				{
-					if (Control != null)
-						Control.Active = value;
-					ischecked = value;
-				}
+				Handler.Widget.OnClick(EventArgs.Empty);
 			}
-		}
-
-		public override void CreateControl(ToolBarHandler handler, int index)
-		{
-			Gtk.Toolbar tb = handler.Control;
-
-			Control = new Gtk.RadioToolButton(handler.RadioGroup);
-			Control.Active = ischecked;
-			Control.Label = Text;
-			Control.TooltipText = this.ToolTip;
-			Control.IconWidget = GtkImage;
-			Control.Sensitive = Enabled;
-			Control.CanFocus = false;
-			Control.IsImportant = true;
-			tb.Insert(Control, index);
-			if (tb.Visible)
-				Control.ShowAll();
-			Control.Toggled += Connector.HandleToggled;
 		}
 
 		protected new RadioToolItemConnector Connector { get { return (RadioToolItemConnector)base.Connector; } }
@@ -46,14 +22,37 @@ namespace Eto.GtkSharp.Forms.ToolBar
 			return new RadioToolItemConnector();
 		}
 
-		protected class RadioToolItemConnector : WeakConnector
+		public bool Checked
 		{
-			public new RadioToolItemHandler Handler { get { return (RadioToolItemHandler)base.Handler; } }
-
-			public void HandleToggled(object sender, EventArgs e)
+			get { return (Control != null) ? Control.Active : false; }
+			set
 			{
-				Handler.Widget.OnClick(EventArgs.Empty);
+				if (Control != null)
+					Control.Active = value;
 			}
+		}
+
+		public override void CreateControl(ToolBarHandler handler, int index)
+		{
+			Gtk.Toolbar tb = handler.Control;
+
+			Control = new Gtk.RadioToolButton(handler.RadioGroup)
+			{
+				Active = false,
+				CanFocus = false,
+				IconWidget = GtkImage,
+				IsImportant = true,
+				Label = Text,
+				Sensitive = Enabled,
+				TooltipText = this.ToolTip
+			};
+
+			tb.Insert(Control, index);
+
+			if (tb.Visible)
+				Control.ShowAll();
+
+			Control.Toggled += Connector.HandleToggled;
 		}
 	}
 }

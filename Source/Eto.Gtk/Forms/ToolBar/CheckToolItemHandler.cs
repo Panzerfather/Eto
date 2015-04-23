@@ -5,38 +5,14 @@ namespace Eto.GtkSharp.Forms.ToolBar
 {
 	public class CheckToolItemHandler : ToolItemHandler<Gtk.ToggleToolButton, CheckToolItem>, CheckToolItem.IHandler
 	{
-		bool ischecked;
-
-		public bool Checked
+		protected class CheckToolItemConnector : WeakConnector
 		{
-			get { return (Control != null) ? Control.Active : ischecked; }
-			set
+			public new CheckToolItemHandler Handler { get { return (CheckToolItemHandler)base.Handler; } }
+
+			public void HandleToggled(object sender, EventArgs e)
 			{
-				if (value != ischecked)
-				{
-					if (Control != null)
-						Control.Active = value;
-					ischecked = value;
-				}
+				Handler.Widget.OnClick(EventArgs.Empty);
 			}
-		}
-
-		public override void CreateControl(ToolBarHandler handler, int index)
-		{
-			Gtk.Toolbar tb = handler.Control;
-			
-			Control = new Gtk.ToggleToolButton();
-			Control.Active = ischecked;
-			Control.Label = Text;
-			Control.TooltipText = this.ToolTip;
-			Control.IconWidget = GtkImage;
-			Control.Sensitive = Enabled;
-			Control.CanFocus = false;
-			Control.IsImportant = true;
-			tb.Insert(Control, index);
-			if (tb.Visible)
-				Control.ShowAll();
-			Control.Toggled += Connector.HandleToggled;
 		}
 
 		protected new CheckToolItemConnector Connector { get { return (CheckToolItemConnector)base.Connector; } }
@@ -46,13 +22,36 @@ namespace Eto.GtkSharp.Forms.ToolBar
 			return new CheckToolItemConnector();
 		}
 
-		protected class CheckToolItemConnector : WeakConnector
+		public override void CreateControl(ToolBarHandler handler, int index)
 		{
-			public new CheckToolItemHandler Handler { get { return (CheckToolItemHandler)base.Handler; } }
+			Gtk.Toolbar tb = handler.Control;
 
-			public void HandleToggled(object sender, EventArgs e)
+			Control = new Gtk.ToggleToolButton()
 			{
-				Handler.Widget.OnClick(EventArgs.Empty);
+				Active = false,
+				CanFocus = false,
+				IconWidget = GtkImage,
+				IsImportant = true,
+				Label = Text,
+				Sensitive = Enabled,
+				TooltipText = this.ToolTip
+			};
+
+			tb.Insert(Control, index);
+
+			if (tb.Visible)
+				Control.ShowAll();
+
+			Control.Toggled += Connector.HandleToggled;
+		}
+
+		public bool Checked
+		{
+			get { return (Control != null) ? Control.Active : false; }
+			set
+			{
+				if (Control != null)
+					Control.Active = value;
 			}
 		}
 	}

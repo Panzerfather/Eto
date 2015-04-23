@@ -9,16 +9,18 @@ namespace Eto.WinRT.Forms.ToolBar
 		where TControl : UIElement
 		where TWidget : ToolItem
 	{
-		public abstract string Text { get; set; }
-
-		public abstract string ToolTip { get; set; }
-
-		public abstract Image Image { get; set; }
-
-		public abstract bool Enabled { get; set; }
-
 		public virtual void CreateFromCommand(Command command)
 		{
 		}
+
+		public abstract bool Enabled { get; set; }
+
+		public abstract Image Image { get; set; }
+
+		public abstract Size ImageScalingSize { get; set; }
+
+		public abstract string Text { get; set; }
+
+		public abstract string ToolTip { get; set; }
 	}
 }

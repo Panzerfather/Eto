@@ -1,4 +1,5 @@
 using System;
+using Eto.Drawing;
 using Eto.Forms;
 using sd = System.Drawing;
 using swf = System.Windows.Forms;
@@ -9,14 +10,23 @@ namespace Eto.WinForms.Forms.ToolBar
 	{
 		public ToolBarHandler()
 		{
-			Control = new swf.ToolStrip();
-			Control.LayoutStyle = swf.ToolStripLayoutStyle.StackWithOverflow;
-			Control.AutoSize = true;
+			Control = new swf.ToolStrip()
+			{
+				AutoSize = true,
+				LayoutStyle = swf.ToolStripLayoutStyle.StackWithOverflow
+			};
 		}
 
-		public void AddButton(ToolItem item, int index)
+		protected override void Initialize()
 		{
-			((IToolBarItemHandler)item.Handler).CreateControl(this, index);
+			base.Initialize();
+
+			Control.ImageScalingSize = Widget.ImageScalingSize.ToSD();
+		}
+
+		public void AddItem(ToolItem item, int index)
+		{
+			Control.Items.Insert(index, (swf.ToolStripItem)item.ControlObject);
 		}
 
 		public void Clear()
@@ -24,7 +34,19 @@ namespace Eto.WinForms.Forms.ToolBar
 			Control.Items.Clear();
 		}
 
-		public void RemoveButton(ToolItem item)
+		public Size ImageScalingSize
+		{
+			get
+			{
+				return Control.ImageScalingSize.ToEto();
+			}
+			set
+			{
+				Control.ImageScalingSize = value.ToSD();
+			}
+		}
+
+		public void RemoveItem(ToolItem item)
 		{
 			Control.Items.Remove((swf.ToolStripItem)item.ControlObject);
 		}

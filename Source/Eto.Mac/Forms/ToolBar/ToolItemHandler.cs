@@ -200,6 +200,12 @@ namespace Eto.Mac.Forms.ToolBar
 		{
 		}
 
+		public Size ImageScalingSize
+		{
+			get { return new Size(0, 0); }
+			set { throw new NotSupportedException(); }
+		}
+
 		public virtual void InvokeButton()
 		{
 		}

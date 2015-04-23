@@ -38,6 +38,7 @@ namespace Eto.Test.WinRT
 				{
 					Content = new ToolBar 
 					{
+						ImageScalingSize = new Eto.Drawing.Size(32,32),
 						Items = 
 						{
 							new ButtonToolItem { Text = "Button1", Image = TestIcons.TestImage, ToolTip="Button1" },

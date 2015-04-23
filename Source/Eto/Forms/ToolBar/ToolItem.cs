@@ -45,6 +45,62 @@ namespace Eto.Forms
 			Enabled = command.Enabled;
 			command.EnabledChanged += (sender, e) => Enabled = command.Enabled;
 			Order = -1;
+			if (command.ImageScalingSize != new Size(0, 0))
+			{
+				ImageScalingSize = command.ImageScalingSize;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="Eto.Forms.ToolItem"/> is enabled.
+		/// </summary>
+		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
+		public bool Enabled
+		{
+			get { return Handler.Enabled; }
+			set { Handler.Enabled = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the image for the tool item.
+		/// </summary>
+		/// <value>The image.</value>
+		public Image Image
+		{
+			get { return Handler.Image; }
+			set { Handler.Image = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the image scaling size.
+		/// </summary>
+		/// <value>The image scaling size.</value>
+		public Size ImageScalingSize
+		{
+			get
+			{
+				return Handler.ImageScalingSize;
+			}
+			set
+			{
+				Handler.ImageScalingSize = value;
+			}
+		}
+
+		/// <summary>
+		/// Called when the tool item is loaded to be shown on the form.
+		/// </summary>
+		/// <param name="e">Event arguments.</param>
+		internal protected virtual void OnLoad(EventArgs e)
+		{
+		}
+
+		/// <summary>
+		/// Called when the tool item is removed from a form.
+		/// </summary>
+		/// <param name="e">Event arguments.</param>
+		internal protected virtual void OnUnLoad(EventArgs e)
+		{
 		}
 
 		/// <summary>
@@ -52,6 +108,12 @@ namespace Eto.Forms
 		/// </summary>
 		/// <value>The order when adding the item.</value>
 		public int Order { get; set; }
+
+		/// <summary>
+		/// Gets or sets a user-defined tag for the tool item.
+		/// </summary>
+		/// <value>The user-defined tag.</value>
+		public object Tag { get; set; }
 
 		/// <summary>
 		/// Gets or sets the text of the item, with mnemonic.
@@ -74,58 +136,10 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
-		/// Gets or sets the image for the tool item.
-		/// </summary>
-		/// <value>The image.</value>
-		public Image Image
-		{
-			get { return Handler.Image; }
-			set { Handler.Image = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Eto.Forms.ToolItem"/> is enabled.
-		/// </summary>
-		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-		public bool Enabled
-		{
-			get { return Handler.Enabled; }
-			set { Handler.Enabled = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets a user-defined tag for the tool item.
-		/// </summary>
-		/// <value>The user-defined tag.</value>
-		public object Tag { get; set; }
-
-		/// <summary>
-		/// Called when the tool item is loaded to be shown on the form.
-		/// </summary>
-		/// <param name="e">Event arguments.</param>
-		internal protected virtual void OnLoad(EventArgs e)
-		{
-		}
-
-		/// <summary>
-		/// Called when the tool item is removed from a form.
-		/// </summary>
-		/// <param name="e">Event arguments.</param>
-		internal protected virtual void OnUnLoad(EventArgs e)
-		{
-		}
-
-		/// <summary>
 		/// Handler interface for the <see cref="ToolItem"/>.
 		/// </summary>
 		public new interface IHandler : Widget.IHandler
 		{
-			/// <summary>
-			/// Gets or sets the image for the tool item.
-			/// </summary>
-			/// <value>The image.</value>
-			Image Image { get; set; }
-
 			/// <summary>
 			/// Creates the item from a command instance.
 			/// </summary>
@@ -135,6 +149,24 @@ namespace Eto.Forms
 			/// </remarks>
 			/// <param name="command">Command the item is created from.</param>
 			void CreateFromCommand(Command command);
+
+			/// <summary>
+			/// Gets or sets a value indicating whether this <see cref="Eto.Forms.ToolItem"/> is enabled.
+			/// </summary>
+			/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
+			bool Enabled { get; set; }
+
+			/// <summary>
+			/// Gets or sets the image for the tool item.
+			/// </summary>
+			/// <value>The image.</value>
+			Image Image { get; set; }
+
+			/// <summary>
+			/// Gets or sets the image scaling size.
+			/// </summary>
+			/// <value>The image scaling size.</value>
+			Size ImageScalingSize { get; set; }
 
 			/// <summary>
 			/// Gets or sets the text of the item, with mnemonic.
@@ -147,12 +179,6 @@ namespace Eto.Forms
 			/// </summary>
 			/// <value>The tool tip.</value>
 			string ToolTip { get; set; }
-
-			/// <summary>
-			/// Gets or sets a value indicating whether this <see cref="Eto.Forms.ToolItem"/> is enabled.
-			/// </summary>
-			/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-			bool Enabled { get; set; }
 		}
 	}
 }

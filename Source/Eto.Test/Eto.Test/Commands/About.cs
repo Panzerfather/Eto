@@ -13,6 +13,7 @@ namespace Eto.Test.Commands
 			MenuText = "About Test Application";
 			ToolBarText = "About";
 			Shortcut = Keys.F11;
+			ImageScalingSize = new Size(32, 32);
 		}
 
 		protected override void OnExecuted(EventArgs e)

@@ -16,10 +16,10 @@ namespace Eto.WinForms.Forms.ToolBar
 		{
 			this.Control = new swf.ToolStrip
 			{
-				Font = sd.SystemFonts.DefaultFont,
+				AutoSize = true,
 				Dock = swf.DockStyle.Fill,
-				ForeColor = sd.SystemColors.ControlText,
-				AutoSize = true
+				Font = sd.SystemFonts.DefaultFont,
+				ForeColor = sd.SystemColors.ControlText
 			};
 		}
 

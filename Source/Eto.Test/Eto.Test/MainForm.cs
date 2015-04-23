@@ -253,6 +253,7 @@ namespace Eto.Test
 			{
 				toolBar.Items.Add(new Commands.About());
 				toolBar.Items.Add(new Commands.Quit());
+				toolBar.Items.Add(new ButtonToolItem() { Text = "Test", Image = TestIcons.TestIcon, ImageScalingSize = new Size(32, 32) });
 			}
 
 			return toolBar;
@@ -260,15 +261,18 @@ namespace Eto.Test
 
 		ToolBar CreateToolBarTop()
 		{
-			ToolBar toolBar = new ToolBar();
+			ToolBar toolBar = new ToolBar()
+			{
+				ImageScalingSize = new Size(32, 32)
+			};
 
 			if (Platform.Supports<ToolBar>())
 			{
 				if (Platform.Supports<ButtonToolItem>())
 				{
-					toolBar.Items.Add(new ButtonToolItem { Text = "Button1", Image = TestIcons.TestImage });
-					toolBar.Items.Add(new CheckToolItem { Text = "Button2", Image = TestIcons.TestImage });
-					toolBar.Items.Add(new CheckToolItem { Text = "Button3", Image = TestIcons.TestImage });
+					toolBar.Items.Add(new ButtonToolItem { Text = "Button1", Image = TestIcons.TestImage, ImageScalingSize = new Size(16, 16) });
+					toolBar.Items.Add(new ButtonToolItem { Text = "Button2", Image = TestIcons.TestImage });
+					toolBar.Items.Add(new ButtonToolItem { Text = "Button3", Image = TestIcons.TestImage });
 					toolBar.Items.Add(new SeparatorToolItem { Type = SeparatorToolItemType.Divider });
 				}
 				if (Platform.Supports<CheckToolItem>())
@@ -285,7 +289,7 @@ namespace Eto.Test
 				}
 				if (Platform.Supports<ButtonToolItem>())
 				{
-					toolBar.Items.Add(new ButtonToolItem { Text = "Button4", Image = TestIcons.TestImage });
+					toolBar.Items.Add(new ButtonToolItem() { Text = "Button4", Image = TestIcons.TestIcon, Enabled = false, ImageScalingSize = new Size(48, 48) });
 				}
 			}
 

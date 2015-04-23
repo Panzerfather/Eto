@@ -1,4 +1,5 @@
 using System;
+using Eto.Drawing;
 using Eto.Forms;
 
 namespace Eto.GtkSharp.Forms.ToolBar
@@ -18,7 +19,9 @@ namespace Eto.GtkSharp.Forms.ToolBar
 			get { return (radioGroup ?? (radioGroup = new Gtk.RadioToolButton(new Gtk.RadioToolButton[0]))); }
 		}
 		#endif
-		
+
+		Size imageSize = new Size(16, 16);
+
 		public ToolBarHandler()
 		{
 			Control = new Gtk.Toolbar();
@@ -26,7 +29,7 @@ namespace Eto.GtkSharp.Forms.ToolBar
 			//control.ToolbarStyle = Gtk.ToolbarStyle.Both;
 		}
 		
-		public void AddButton(ToolItem item, int index)
+		public void AddItem(ToolItem item, int index)
 		{
 			((IToolBarItemHandler)item.Handler).CreateControl(this, index);
 		}
@@ -39,7 +42,28 @@ namespace Eto.GtkSharp.Forms.ToolBar
 			}
 		}
 
-		public void RemoveButton(ToolItem item)
+		public Size ImageScalingSize
+		{
+			get
+			{
+				return imageSize;
+			}
+			set
+			{
+				imageSize = value;
+
+				if (imageSize == new Size(16, 16))
+				{
+					Control.IconSize = Gtk.IconSize.SmallToolbar;
+				}
+				else
+				{
+					Control.IconSize = Gtk.IconSize.LargeToolbar;
+				}
+			}
+		}
+
+		public void RemoveItem(ToolItem item)
 		{
 			if (item.ControlObject != null)
 				Control.Remove((Gtk.Widget)item.ControlObject);

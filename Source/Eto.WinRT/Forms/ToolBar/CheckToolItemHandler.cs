@@ -1,6 +1,7 @@
 using System;
 using Eto.Drawing;
 using Eto.Forms;
+using sw = Windows.UI.Xaml;
 using swc = Windows.UI.Xaml.Controls;
 using swm = Windows.UI.Xaml.Media;
 
@@ -8,15 +9,21 @@ namespace Eto.WinRT.Forms.ToolBar
 {
 	public class CheckToolItemHandler : ToolItemHandler<swc.Primitives.ToggleButton, CheckToolItem>, CheckToolItem.IHandler
 	{
-        Image image;
+		Image image;
+		Size imageSize = new Size(16, 16);
 		readonly swc.Image swcImage;
 		readonly swc.TextBlock label;
+
 		public CheckToolItemHandler ()
 		{
 			Control = new swc.Primitives.ToggleButton {
 				IsThreeState = false
 			};
-			swcImage = new swc.Image { MaxHeight = 16, MaxWidth = 16 };
+			swcImage = new swc.Image { MaxHeight = imageSize.Height, MaxWidth = imageSize.Width };
+			label = new swc.TextBlock()
+			{
+				VerticalAlignment = sw.VerticalAlignment.Center
+			};
 			label = new swc.TextBlock ();
 			var panel = new swc.StackPanel { Orientation = swc.Orientation.Horizontal };
 			panel.Children.Add (swcImage);
@@ -40,6 +47,35 @@ namespace Eto.WinRT.Forms.ToolBar
 			set { Control.IsChecked = value; }
 		}
 
+		public override bool Enabled
+		{
+			get { return Control.IsEnabled; }
+			set { Control.IsEnabled = value; }
+		}
+
+		public override Image Image
+		{
+			get { return image; }
+			set
+			{
+				image = value;
+				swcImage.Source = image.ToWpf(imageSize.Width);
+			}
+		}
+
+		public override Size ImageScalingSize
+		{
+			get
+			{
+				return imageSize;
+			}
+			set
+			{
+				imageSize = value;
+				swcImage.Source = image.ToWpf(imageSize.Width); // at the moment only square sizes are available
+			}
+		}
+
 		public override string Text
 		{
 			get { return label.Text.ToEtoMneumonic(); }
@@ -54,22 +90,6 @@ namespace Eto.WinRT.Forms.ToolBar
 #else
 			get; set;
 #endif
-		}
-
-		public override Image Image
-		{
-			get { return image; }
-			set
-			{
-				image = value;
-				swcImage.Source = image.ToWpf ((int)swcImage.MaxWidth);
-			}
-		}
-
-		public override bool Enabled
-		{
-			get { return Control.IsEnabled; }
-			set { Control.IsEnabled = value; }
 		}
 	}
 }

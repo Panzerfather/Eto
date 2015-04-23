@@ -1,6 +1,7 @@
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Eto.Drawing;
 
 namespace Eto.Forms
 {
@@ -52,6 +53,22 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
+		/// Gets or sets the image scaling size.
+		/// </summary>
+		/// <value>The image scaling size.</value>
+		public Size ImageScalingSize
+		{
+			get
+			{
+				return Handler.ImageScalingSize;
+			}
+			set
+			{
+				Handler.ImageScalingSize = value;
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets the text alignment hint.
 		/// </summary>
 		/// <remarks>
@@ -93,11 +110,11 @@ namespace Eto.Forms
 		public new interface IHandler : Control.IHandler
 		{
 			/// <summary>
-			/// Adds a button at the specified index.
+			/// Adds a tool item at the specified index.
 			/// </summary>
-			/// <param name="button">Button to add.</param>
+			/// <param name="item">Item to add.</param>
 			/// <param name="index">Index of the button to add.</param>
-			void AddButton(ToolItem button, int index);
+			void AddItem(ToolItem item, int index);
 
 			/// <summary>
 			/// Clears all buttons from the toolbar
@@ -105,10 +122,16 @@ namespace Eto.Forms
 			void Clear();
 
 			/// <summary>
-			/// Removes the specified button.
+			/// Gets or sets the image scaling size for the toolbar.
 			/// </summary>
-			/// <param name="button">Button to remove.</param>
-			void RemoveButton(ToolItem button);
+			/// <value>The image scaling size.</value>
+			Size ImageScalingSize { get; set; }
+
+			/// <summary>
+			/// Removes the specified tool item.
+			/// </summary>
+			/// <param name="item">Item to remove.</param>
+			void RemoveItem(ToolItem item);
 
 			/// <summary>
 			/// Gets or sets the text alignment hint.

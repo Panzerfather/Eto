@@ -1,6 +1,7 @@
 using System;
 using Eto.Drawing;
 using Eto.Forms;
+using sw = System.Windows;
 using swc = System.Windows.Controls;
 using swm = System.Windows.Media;
 
@@ -9,15 +10,20 @@ namespace Eto.Wpf.Forms.ToolBar
 	public class ButtonToolItemHandler : ToolItemHandler<swc.Button, ButtonToolItem>, ButtonToolItem.IHandler
 	{
 		Image image;
+		Size imageSize = new Size(16, 16);
+		readonly swc.StackPanel panel;
 		readonly swc.Image swcImage;
 		readonly swc.TextBlock label;
 
 		public ButtonToolItemHandler ()
 		{
 			Control = new swc.Button();
-			swcImage = new swc.Image { MaxHeight = 16, MaxWidth = 16 };
-			label = new swc.TextBlock();
-			var panel = new swc.StackPanel { Orientation = swc.Orientation.Horizontal };
+			swcImage = new swc.Image { MaxHeight = imageSize.Height, MaxWidth = imageSize.Width };
+			label = new swc.TextBlock()
+			{
+				VerticalAlignment = sw.VerticalAlignment.Center
+			};
+			panel = new swc.StackPanel { Orientation = swc.Orientation.Horizontal };
 			panel.Children.Add(swcImage);
 			panel.Children.Add(label);
 			Control.Content = panel;
@@ -25,6 +31,41 @@ namespace Eto.Wpf.Forms.ToolBar
 			{
 				Widget.OnClick(EventArgs.Empty);
 			};
+		}
+
+		public override bool Enabled
+		{
+			get { return Control.IsEnabled; }
+			set
+			{
+				Control.IsEnabled = value;
+				swcImage.IsEnabled = value;
+			}
+		}
+
+		public override Image Image
+		{
+			get { return image; }
+			set
+			{
+				image = value;
+				swcImage.Source = image.ToWpf(imageSize.Width); // at the moment only square sizes are available
+			}
+		}
+
+		public override Size ImageScalingSize
+		{
+			get
+			{
+				return imageSize;
+			}
+			set
+			{
+				imageSize = value;
+				swcImage.MaxHeight = value.Height;
+				swcImage.MaxWidth = value.Width;
+				swcImage.Source = image.ToWpf(imageSize.Width); // at the moment only square sizes are available
+			}
 		}
 
 		public override string Text
@@ -37,26 +78,6 @@ namespace Eto.Wpf.Forms.ToolBar
 		{
 			get { return Control.ToolTip as string; }
 			set { Control.ToolTip = value; }
-		}
-
-		public override Image Image
-		{
-			get { return image; }
-			set
-			{
-				image = value;
-				swcImage.Source = image.ToWpf((int)swcImage.MaxWidth);
-			}
-		}
-
-		public override bool Enabled
-		{
-			get { return Control.IsEnabled; }
-			set
-			{
-				Control.IsEnabled = value;
-				swcImage.IsEnabled = value;
-			}
 		}
 	}
 }

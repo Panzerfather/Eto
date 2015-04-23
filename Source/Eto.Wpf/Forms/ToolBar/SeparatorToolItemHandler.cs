@@ -23,6 +23,36 @@ namespace Eto.Wpf.Forms.ToolBar
 			Type = SeparatorToolItemType.Divider;
 		}
 
+		public override bool Enabled
+		{
+			get { return false; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override Image Image
+		{
+			get { return null; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override Size ImageScalingSize
+		{
+			get { return new Size(0, 0); }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override string Text
+		{
+			get { return string.Empty; }
+			set { throw new NotSupportedException(); }
+		}
+
+		public override string ToolTip
+		{
+			get { return string.Empty; }
+			set { throw new NotSupportedException(); }
+		}
+
 		public SeparatorToolItemType Type
 		{
 			get
@@ -51,31 +81,6 @@ namespace Eto.Wpf.Forms.ToolBar
 				}
 				Control.Content = control;
 			}
-		}
-
-
-		public override string Text
-		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public override string ToolTip
-		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public override Image Image
-		{
-			get { return null; }
-			set { throw new NotSupportedException(); }
-		}
-
-		public override bool Enabled
-		{
-			get { return false; }
-			set { throw new NotSupportedException(); }
 		}
 	}
 }

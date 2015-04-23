@@ -101,7 +101,7 @@ namespace Eto.Forms
 		protected override void InsertItem(int index, ToolItem item)
 		{
 			base.InsertItem(index, item);
-			parent.Handler.AddButton(item, index);
+			parent.Handler.AddItem(item, index);
 		}
 
 		/// <summary>
@@ -112,7 +112,7 @@ namespace Eto.Forms
 		{
 			var item = this[index];
 			base.RemoveItem(index);
-			parent.Handler.RemoveButton(item);
+			parent.Handler.RemoveItem(item);
 		}
 	}
 }
