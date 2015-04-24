@@ -74,7 +74,12 @@ namespace Eto.Wpf.Forms.ToolBar
 		public override bool Enabled
 		{
 			get { return Control.IsEnabled; }
-			set { Control.IsEnabled = value; }
+			set
+			{
+				Control.IsEnabled = value;
+				swcImage.IsEnabled = value;
+				swcImage.Opacity = 0.5;
+			}
 		}
 
 		public override Image Image
