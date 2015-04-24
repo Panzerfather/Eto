@@ -29,10 +29,11 @@ namespace Eto.Mac.Forms.ToolBar
 		public bool Checked
 		{
 			get { return isChecked; }
-			set { 
+			set
+			{
 				isChecked = value;
-				//if (isChecked && Control != null && toolbarHandler != null && toolbarHandler.Control != null)
-					//toolbarHandler.Control.SelectedItemIdentifier = Identifier;
+				if (isChecked && Control != null && toolbarHandler != null && toolbarHandler.Control != null)
+					toolbarHandler.Control.SelectedItemIdentifier = Identifier;
 			}
 		}
 
@@ -42,21 +43,20 @@ namespace Eto.Mac.Forms.ToolBar
 			Selectable = true;
 		}
 
-		public override void ControlAdded (ToolBarHandler toolbar)
+		public override void ControlAdded(ToolBarHandler toolbar)
 		{
-			base.ControlAdded (toolbar);
+			base.ControlAdded(toolbar);
 			toolbarHandler = toolbar;
-			//if (isChecked)
-				//toolbar.Control.SelectedItemIdentifier = Identifier;
+			if (isChecked)
+				toolbar.Control.SelectedItemIdentifier = Identifier;
 		}
-		
+
 		public override void InvokeButton()
 		{
-			/*
 			if (toolbarHandler != null && toolbarHandler.Control != null)
 			{
 				isChecked = toolbarHandler.Control.SelectedItemIdentifier == Identifier;
-			}*/
+			}
 			Widget.OnClick(EventArgs.Empty);
 		}
 	}
