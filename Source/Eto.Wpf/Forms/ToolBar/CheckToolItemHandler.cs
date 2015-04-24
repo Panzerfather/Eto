@@ -54,7 +54,7 @@ namespace Eto.Wpf.Forms.ToolBar
 			{
 				Control.IsEnabled = value;
 				swcImage.IsEnabled = value;
-				swcImage.Opacity = 0.5;
+				swcImage.Opacity = (value == false ? 0.5 : 1);
 			}
 		}
 
