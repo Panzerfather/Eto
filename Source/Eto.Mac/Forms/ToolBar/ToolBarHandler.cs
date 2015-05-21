@@ -1,7 +1,8 @@
 using System;
-using Eto.Forms;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using Eto.Drawing;
+using Eto.Forms;
 
 #if XAMMAC2
 using AppKit;
@@ -34,8 +35,8 @@ using nuint = System.UInt32;
 
 namespace Eto.Mac.Forms.ToolBar
 {
-	// TODO: needs to be changed to MacControl instead of WidgetHandler
-	public class ToolBarHandler : WidgetHandler<NSToolbar, Eto.Forms.ToolBar>, Eto.Forms.ToolBar.IHandler
+
+	public class ToolBarHandler : MacView<NSToolbar, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
 	{
 		readonly List<IToolBarBaseItemHandler> items = new List<IToolBarBaseItemHandler>();
 
@@ -96,7 +97,7 @@ namespace Eto.Mac.Forms.ToolBar
 			Control.Delegate = new TBDelegate { Handler = this };
 		}
 
-		public void AddButton(ToolItem item, int index)
+		public void AddItem(ToolItem item, int index)
 		{
 			var handler = (IToolBarBaseItemHandler)item.Handler;
 			items.Insert(index, handler);
@@ -119,7 +120,34 @@ namespace Eto.Mac.Forms.ToolBar
 			//Control.ValidateVisibleItems();
 		}
 
-		public void RemoveButton(ToolItem item)
+		public override NSView ContainerControl {
+			// TODO: Is there a way to convert NSToolbar to NSView
+			//get { return Control; }
+			get { return null; }
+		}
+
+		public override bool Enabled
+		{
+			get { return true; }
+			set { }
+		}
+
+		public Eto.Drawing.Size ImageScalingSize
+		{
+			get
+			{
+				// TODO: Is there an equal property for Mac?
+				//return Control.ImageScalingSize.ToEto();
+				return new Eto.Drawing.Size(0, 0);
+			}
+			set
+			{
+				// TODO: is there an equal property for Mac?
+				//Control.ImageScalingSize = value.ToSD();
+			}
+		}
+
+		public void RemoveItem(ToolItem item)
 		{
 			var handler = item.Handler as IToolBarBaseItemHandler;
 			var index = items.IndexOf(handler);

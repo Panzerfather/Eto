@@ -83,6 +83,11 @@ namespace Eto.WinForms.Forms.ToolBar
 			set { this.Control.Padding = value.ToSWF(); }
 		}
 
+		public bool RecurseToChildren
+		{
+			get { return true; }
+		}
+
 		protected virtual void SetContent(swf.Control contentControl)
 		{
 			contentControl.Dock = swf.DockStyle.Fill;
@@ -93,11 +98,6 @@ namespace Eto.WinForms.Forms.ToolBar
 		{
 			if (content != null)
 				content.SetScale(xscale, yscale);
-		}
-		
-		public bool RecurseToChildren
-		{
-			get { return true; }
 		}
 	}
 }
