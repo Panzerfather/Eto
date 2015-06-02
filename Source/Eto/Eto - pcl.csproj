@@ -318,7 +318,6 @@
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Link>LICENSE</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="../Shared/Build.targets" />
