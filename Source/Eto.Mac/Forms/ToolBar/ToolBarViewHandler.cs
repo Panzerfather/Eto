@@ -35,22 +35,12 @@ using nuint = System.UInt32;
 
 namespace Eto.Mac.Forms.ToolBar
 {
-	public class ToolBarViewHandler : MacView<NSToolbar, Eto.Forms.ToolBarView, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBarView.IHandler
+	public class ToolBarViewHandler : MacView<NSToolbar, Eto.Forms.ToolBarView, Eto.Forms.ToolBarView.ICallback>, Eto.Forms.ToolBarView.IHandler
 	{
 		Control content;
 		static readonly object minimumSizeKey = new object();
 
 		public ToolBarViewHandler()
-		{
-			// TODO: THIS IS JUST A STUB
-		}
-
-		public void AddItem(Control item, int index)
-		{
-			// TODO: THIS IS JUST A STUB
-		}
-
-		public void Clear()
 		{
 			// TODO: THIS IS JUST A STUB
 		}
@@ -100,21 +90,6 @@ namespace Eto.Mac.Forms.ToolBar
 			set { }
 		}
 
-		public Eto.Drawing.Size ImageScalingSize
-		{
-			get
-			{
-				// TODO: Is there an equal property for Mac?
-				//return Control.ImageScalingSize.ToEto();
-				return new Eto.Drawing.Size(0, 0);
-			}
-			set
-			{
-				// TODO: is there an equal property for Mac?
-				//Control.ImageScalingSize = value.ToSD();
-			}
-		}
-
 		public override Size MinimumSize
 		{
 			get { return Widget.Properties.Get<Size?>(minimumSizeKey) ?? Size.Empty; }
@@ -141,32 +116,6 @@ namespace Eto.Mac.Forms.ToolBar
 		public bool RecurseToChildren
 		{
 			get { return true; }
-		}
-
-		public ToolBarTextAlign TextAlign
-		{
-			get
-			{
-				/*switch (control.TextAlign)
-				{
-					case SWF.ToolBarTextAlign.Right:
-						return ToolBarTextAlign.Right;
-					default:
-					case SWF.ToolBarTextAlign.Underneath:
-						return ToolBarTextAlign.Underneath;
-				}
-				 */
-				return ToolBarTextAlign.Underneath;
-			}
-			set
-			{
-				switch (value)
-				{
-					case ToolBarTextAlign.Right:
-						//control.TextAlign = SWF.ToolBarTextAlign.Right;
-						break;
-				}
-			}
 		}
 	}
 }
