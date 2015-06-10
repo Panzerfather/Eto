@@ -13,7 +13,7 @@ namespace Eto.Forms
 	/// </remarks>
 	/// <copyright>(c) 2015 by Nicolas Pöhlmann</copyright>
 	/// <license type="BSD-3">See LICENSE for full terms</license>
-	[ContentProperty("Toolbar")]
+	[ContentProperty("ToolBar")]
 	[Handler(typeof(ToolBarView.IHandler))]
 	public class ToolBarView : Panel
 	{
