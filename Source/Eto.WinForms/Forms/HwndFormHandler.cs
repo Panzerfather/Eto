@@ -19,7 +19,7 @@ namespace Eto.WinForms.Forms
 #if WPF
  IWpfWindow
 #elif WINFORMS
-    IWindowHandler
+ IWindowHandler
 #endif
 	{
 #if WPF
@@ -33,27 +33,28 @@ namespace Eto.WinForms.Forms
 		}
 #elif WINFORMS
 
-    class Win32WindowImplementation : swf.IWin32Window
-    {
-      public Win32WindowImplementation(IntPtr hWnd)
-      {
-        Handle = hWnd;
-      }
+		class Win32WindowImplementation : swf.IWin32Window
+		{
+			public Win32WindowImplementation(IntPtr hWnd)
+			{
+				Handle = hWnd;
+			}
 
-      public IntPtr Handle { get; private set; }
-    }
+			public IntPtr Handle { get; private set; }
+		}
 
-    public swf.ToolTip ToolTips
-    {
-      get { throw new NotImplementedException(); }
-    }
+		public swf.ToolTip ToolTips
+		{
+			get { throw new NotImplementedException(); }
+		}
 
-    public swf.IWin32Window Win32Window
-    {
-      get { return new Win32WindowImplementation(Control); }
-    }
+		public swf.IWin32Window Win32Window
+		{
+			get { return new Win32WindowImplementation(Control); }
+		}
 
 #endif
+
 		public HwndFormHandler(IntPtr hWnd)
 		{
 			Control = hWnd;
@@ -64,7 +65,7 @@ namespace Eto.WinForms.Forms
 			throw new NotImplementedException();
 		}
 
-		public ToolBarView ToolBar
+		public Eto.Forms.ToolBar ToolBar
 		{
 			get
 			{

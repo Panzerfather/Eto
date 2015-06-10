@@ -34,7 +34,7 @@ namespace Eto.Forms
 	/// <license type="BSD-3">See LICENSE for full terms</license>
 	[ContentProperty("Items")]
 	[Handler(typeof(ToolBar.IHandler))]
-	public class ToolBar : Control
+	public class ToolBar : Widget
 	{
 		internal new IHandler Handler { get { return (IHandler)base.Handler; } }
 
@@ -82,7 +82,6 @@ namespace Eto.Forms
 			set { Handler.TextAlign = value; }
 		}
 
-		/*
 		/// <summary>
 		/// Called when the tool item is loaded to be shown on the form.
 		/// </summary>
@@ -102,12 +101,11 @@ namespace Eto.Forms
 			foreach (var item in Items)
 				item.OnUnLoad(e);
 		}
-		*/
 
 		/// <summary>
 		/// Handler interface for the <see cref="ToolBar"/>.
 		/// </summary>
-		public new interface IHandler : Control.IHandler
+		public new interface IHandler : Widget.IHandler
 		{
 			/// <summary>
 			/// Adds a tool item at the specified index.

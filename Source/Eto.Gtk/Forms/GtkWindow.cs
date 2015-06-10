@@ -32,7 +32,7 @@ namespace Eto.GtkSharp.Forms
 		Rectangle? restoreBounds;
 		WindowState state;
 		WindowStyle style;
-		ToolBarView toolBar;
+		Eto.Forms.ToolBar toolBar;
 		bool topmost;
 		readonly Gtk.Alignment toolbarBox;
 		Gtk.VBox vbox;
@@ -458,7 +458,7 @@ namespace Eto.GtkSharp.Forms
 			base.Dispose(disposing);
 		}
 
-		public ToolBarView ToolBar
+		public Eto.Forms.ToolBar ToolBar
 		{
 			get
 			{

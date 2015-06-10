@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using Eto.Drawing;
 using Eto.Forms;
 
@@ -35,9 +35,9 @@ using nuint = System.UInt32;
 
 namespace Eto.Mac.Forms.ToolBar
 {
-
-	public class ToolBarHandler : MacView<NSToolbar, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
+	public class ToolBarHandler : WidgetHandler<NSToolbar, Eto.Forms.ToolBar>, Eto.Forms.ToolBar.IHandler
 	{
+		DockPosition dock = DockPosition.Top;
 		readonly List<IToolBarBaseItemHandler> items = new List<IToolBarBaseItemHandler>();
 
 		class TBDelegate : NSToolbarDelegate
@@ -53,7 +53,7 @@ namespace Eto.Mac.Forms.ToolBar
 
 			public override void WillAddItem(NSNotification notification)
 			{
-				
+
 			}
 
 			public override void DidRemoveItem(NSNotification notification)
@@ -97,6 +97,27 @@ namespace Eto.Mac.Forms.ToolBar
 			Control.Delegate = new TBDelegate { Handler = this };
 		}
 
+		public DockPosition Dock
+		{
+			get { return dock; }
+			set { dock = value; }
+		}
+
+		public Size ImageScalingSize
+		{
+			get
+			{
+				// TODO
+				//return Control.ImageScalingSize.ToEto();
+				return new Size(0, 0);
+			}
+			set
+			{
+				// TODO
+				//Control.ImageScalingSize = value.ToSD();
+			}
+		}
+
 		public void AddItem(ToolItem item, int index)
 		{
 			var handler = (IToolBarBaseItemHandler)item.Handler;
@@ -105,46 +126,6 @@ namespace Eto.Mac.Forms.ToolBar
 			if (handler != null)
 				handler.ControlAdded(this);
 			//Control.ValidateVisibleItems();
-		}
-
-		public void Clear()
-		{
-			for (int i = Control.Items.Length - 1; i >= 0; i--)
-			{
-				Control.RemoveItem(i);
-			}
-			items.Clear();
-			// allow menu items to be GC'd
-			var newitems = Control.Items;
-
-			//Control.ValidateVisibleItems();
-		}
-
-		public override NSView ContainerControl {
-			// TODO: Is there a way to convert NSToolbar to NSView
-			//get { return Control; }
-			get { return null; }
-		}
-
-		public override bool Enabled
-		{
-			get { return true; }
-			set { }
-		}
-
-		public Eto.Drawing.Size ImageScalingSize
-		{
-			get
-			{
-				// TODO: Is there an equal property for Mac?
-				//return Control.ImageScalingSize.ToEto();
-				return new Eto.Drawing.Size(0, 0);
-			}
-			set
-			{
-				// TODO: is there an equal property for Mac?
-				//Control.ImageScalingSize = value.ToSD();
-			}
 		}
 
 		public void RemoveItem(ToolItem item)
@@ -181,6 +162,19 @@ namespace Eto.Mac.Forms.ToolBar
 						break;
 				}
 			}
+		}
+
+		public void Clear()
+		{
+			for (int i = Control.Items.Length - 1; i >= 0; i--)
+			{
+				Control.RemoveItem(i);
+			}
+			items.Clear();
+			// allow menu items to be GC'd
+			var newitems = Control.Items;
+
+			//Control.ValidateVisibleItems();
 		}
 	}
 }

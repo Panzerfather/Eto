@@ -4,7 +4,7 @@ using Eto.Forms;
 
 namespace Eto.GtkSharp.Forms.ToolBar
 {
-	public class ToolBarHandler : GtkControl<Gtk.Toolbar, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
+	public class ToolBarHandler : WidgetHandler<Gtk.Toolbar, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
 	{
 		#if GTK2
 		Gtk.RadioButton radioGroup;

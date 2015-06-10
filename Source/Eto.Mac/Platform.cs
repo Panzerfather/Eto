@@ -152,7 +152,6 @@ namespace Eto.Mac
 			p.Add<RadioToolItem.IHandler>(() => new RadioToolItemHandler());
 			p.Add<SeparatorToolItem.IHandler>(() => new SeparatorToolItemHandler());
 			p.Add<ToolBar.IHandler>(() => new ToolBarHandler());
-			p.Add<ToolBarView.IHandler>(() => new ToolBarViewHandler());
 			
 			// Forms
 			p.Add<Application.IHandler>(() => new ApplicationHandler());

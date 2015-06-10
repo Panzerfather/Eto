@@ -8,7 +8,7 @@ namespace Eto.WinForms.Forms.ToolBar
 {
 	public class ToolBarViewHandler : WindowsControl<swf.ToolStrip, ToolBarView, ToolBarView.ICallback>, ToolBarView.IHandler
 	{
-		Control content;
+		Eto.Forms.ToolBar content;
 		DockPosition dock = DockPosition.None;
 		static readonly object minimumSizeKey = new object();
 
@@ -30,38 +30,18 @@ namespace Eto.WinForms.Forms.ToolBar
 
 		public Control Content
 		{
-			get { return content; }
-			set
-			{
-				if (Widget.Loaded)
-					SuspendLayout();
-
-				if (content != null)
-				{
-					var contentHandler = content.GetWindowsHandler();
-					contentHandler.SetScale(false, false);
-					contentHandler.ContainerControl.Parent = null;
-				}
-
-				content = value;
-
-				if (content != null)
-				{
-					SetContentScale(XScale, YScale);
-					var contentHandler = content.GetWindowsHandler();
-					contentHandler.BeforeAddControl(Widget.Loaded);
-					SetContent(contentHandler.ContainerControl);
-				}
-
-				if (Widget.Loaded)
-					ResumeLayout();
-			}
+			get { return null; }
+			set { }
 		}
 
 		public DockPosition Dock
 		{
 			get { return dock; }
-			set { dock = value; }
+			set
+			{
+				this.Control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), value.ToString());
+				dock = value;
+			}
 		}
 
 		public Size MinimumSize
@@ -88,16 +68,31 @@ namespace Eto.WinForms.Forms.ToolBar
 			get { return true; }
 		}
 
-		protected virtual void SetContent(swf.Control contentControl)
+		public Eto.Forms.ToolBar ToolBar
 		{
-			contentControl.Dock = swf.DockStyle.Fill;
-			this.Control = contentControl as swf.ToolStrip;
-		}
-		
-		protected virtual void SetContentScale(bool xscale, bool yscale)
-		{
-			if (content != null)
-				content.SetScale(xscale, yscale);
+			get { return content; }
+			set
+			{
+				if (Widget.Loaded)
+					SuspendLayout();
+
+				if (content != null)
+				{
+					this.Control = null;
+				}
+
+				content = value;
+
+				if (content != null)
+				{
+					swf.ToolStrip control = ((swf.ToolStrip)content.ControlObject);
+					control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), dock.ToString());
+					this.Control = control;
+				}
+
+				if (Widget.Loaded)
+					ResumeLayout();
+			}
 		}
 	}
 }

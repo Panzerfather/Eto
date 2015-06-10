@@ -6,7 +6,7 @@ namespace Eto.GtkSharp.Forms.ToolBar
 {
 	public class ToolBarViewHandler : GtkControl<Gtk.Toolbar, ToolBarView, ToolBarView.ICallback>, ToolBarView.IHandler
 	{
-		Control content;
+		Eto.Forms.ToolBar content;
 		ContextMenu contextMenu;
 		DockPosition dock = DockPosition.None;
 		Size minimumSize;
@@ -39,21 +39,8 @@ namespace Eto.GtkSharp.Forms.ToolBar
 
 		public Control Content
 		{
-			get { return content; }
-			set
-			{
-				if (content != value)
-				{
-					if (content != null)
-						Control = null;
-					content = value;
-					var widget = content.GetContainerWidget();
-					if (widget != null)
-					{
-						Control = widget as Gtk.Toolbar;
-					}
-				}
-			}
+			get { return null; }
+			set { }
 		}
 
 		public ContextMenu ContextMenu
@@ -65,6 +52,12 @@ namespace Eto.GtkSharp.Forms.ToolBar
 		protected override WeakConnector CreateConnector()
 		{
 			return new ToolBarViewEventConnector();
+		}
+
+		public DockPosition Dock
+		{
+			get { return dock; }
+			set { dock = value; }
 		}
 
 		protected class ToolBarViewEventConnector : GtkControlConnector
@@ -91,12 +84,6 @@ namespace Eto.GtkSharp.Forms.ToolBar
 #endif
 		}
 
-		public DockPosition Dock
-		{
-			get { return dock; }
-			set { dock = value; }
-		}
-
 		public virtual Size MinimumSize
 		{
 			get { return minimumSize; }
@@ -118,6 +105,22 @@ namespace Eto.GtkSharp.Forms.ToolBar
 		public bool RecurseToChildren
 		{
 			get { return true; }
+		}
+
+		public Eto.Forms.ToolBar ToolBar
+		{
+			get { return content; }
+			set
+			{
+				if (content != value)
+				{
+					if (content != null)
+						Control = null;
+					content = value;
+					if (content != null)
+						Control = content.ControlObject as Gtk.Toolbar;
+				}
+			}
 		}
 
 		protected virtual bool UseMinimumSizeRequested

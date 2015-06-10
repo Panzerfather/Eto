@@ -13,7 +13,7 @@ namespace Eto.Forms
 	/// </remarks>
 	/// <copyright>(c) 2015 by Nicolas Pöhlmann</copyright>
 	/// <license type="BSD-3">See LICENSE for full terms</license>
-	[ContentProperty("Content")]
+	[ContentProperty("Toolbar")]
 	[Handler(typeof(ToolBarView.IHandler))]
 	public class ToolBarView : Panel
 	{
@@ -33,6 +33,27 @@ namespace Eto.Forms
 		protected ToolBarView(IHandler handler)
 			: base(handler)
 		{
+		}
+
+		/// <summary>
+		/// Gets or sets the tool bar for the control.
+		/// </summary>
+		/// <remarks>
+		/// Note that each control can only have a single tool bar
+		/// </remarks>
+		/// <value>The tool bar for the window</value>
+		public ToolBar ToolBar
+		{
+			get { return Handler.ToolBar; }
+			set
+			{
+				var toolbar = Handler.ToolBar;
+				if (toolbar != null)
+					toolbar.OnUnLoad(EventArgs.Empty);
+				Handler.ToolBar = value;
+				if (value != null)
+					value.OnLoad(EventArgs.Empty);
+			}
 		}
 
 		/// <summary>
@@ -72,6 +93,15 @@ namespace Eto.Forms
 			/// </remarks>
 			/// <value>The dock hint.</value>
 			DockPosition Dock { get; set; }
+
+			/// <summary>
+			/// Gets or sets the tool bar for the window.
+			/// </summary>
+			/// <remarks>
+			/// Note that each window can only have a single tool bar
+			/// </remarks>
+			/// <value>The tool bar for the window</value>
+			ToolBar ToolBar { get; set; }
 		}
 	}
 }

@@ -303,7 +303,7 @@ namespace Eto.Forms
 		/// If you want to use multiple tool bars you have to use the <see cref="Eto.Forms.DockView"/> control.
 		/// </remarks>
 		/// <value>The tool bar for the window</value>
-		public ToolBarView ToolBar
+		public ToolBar ToolBar
 		{
 			get { return Handler.ToolBar; }
 			set { Handler.ToolBar = value; }
@@ -536,7 +536,7 @@ namespace Eto.Forms
 			/// If you want to use multiple tool bars use the <see cref="Eto.Forms.DockView"/> control.
 			/// </remarks>
 			/// <value>The tool bar for the window</value>
-			ToolBarView ToolBar { get; set; }
+			ToolBar ToolBar { get; set; }
 
 			/// <summary>
 			/// Closes the window

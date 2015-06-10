@@ -6,7 +6,7 @@ using swf = System.Windows.Forms;
 
 namespace Eto.WinForms.Forms.ToolBar
 {
-	public class ToolBarHandler : WindowsControl<swf.ToolStrip, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
+	public class ToolBarHandler : WidgetHandler<swf.ToolStrip, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
 	{
 		public ToolBarHandler()
 		{

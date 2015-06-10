@@ -4,8 +4,8 @@ using sd = System.Drawing;
 using swf = System.Windows.Forms;
 using Eto.Drawing;
 using Eto.Forms;
-using Eto.WinForms.Drawing;
 using Eto.WinForms.Forms;
+using Eto.WinForms.Drawing;
 
 namespace Eto.WinForms.Forms
 {
@@ -23,7 +23,7 @@ namespace Eto.WinForms.Forms
 	{
 		MenuBar menu;
 		Icon icon;
-		ToolBarView toolBar;
+		Eto.Forms.ToolBar toolBar;
 		swf.Panel menuHolder;
 		swf.Panel content;
 		swf.Panel toolbarHolder;
@@ -264,7 +264,7 @@ namespace Eto.WinForms.Forms
 			set { Control.TopMost = value; }
 		}
 
-		public ToolBarView ToolBar
+		public Eto.Forms.ToolBar ToolBar
 		{
 			get
 			{

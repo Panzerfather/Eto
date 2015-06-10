@@ -117,14 +117,14 @@ namespace Eto.Test
 					{
 						new DockViewItem
 						{
-							Content = new ToolBarView { Content = this.CreateToolBarTop(), Dock = DockPosition.Top },
+							Content = new ToolBarView { ToolBar = this.CreateToolBarTop(), Dock = DockPosition.Top },
 							Dock = DockPosition.Top,
 							Order = 1,
 							Position = new Eto.Drawing.Point(0,0)
 						},
 						new DockViewItem
 						{
-							Content = new ToolBarView { Content = this.CreateToolBarRight(), Dock = DockPosition.Bottom },
+							Content = new ToolBarView { ToolBar = this.CreateToolBarRight(), Dock = DockPosition.Bottom },
 							Dock = DockPosition.Right
 						},
 						new DockViewItem
@@ -142,7 +142,7 @@ namespace Eto.Test
 
 			if (ToolBarView.IsSupported)
 			{
-				this.ToolBar = new ToolBarView { Content = this.CreateToolBarTop(), Dock = DockPosition.Top };
+				this.ToolBar = this.CreateToolBarTop();
 			}
 
 			if (Splitter.IsSupported)
