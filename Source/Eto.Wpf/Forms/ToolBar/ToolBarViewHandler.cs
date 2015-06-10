@@ -111,7 +111,7 @@ namespace Eto.Wpf.Forms.ToolBar
 
 				if (content != null)
 				{
-					swc.ToolBar control = ((swc.ToolBar)content.ControlObject);
+					swc.ToolBar control = (swc.ToolBar)content.ControlObject;
 					//control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), value.ToString());
 					this.Control = control;
 				}

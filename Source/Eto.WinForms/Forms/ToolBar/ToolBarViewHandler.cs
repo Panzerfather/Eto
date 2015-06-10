@@ -85,7 +85,7 @@ namespace Eto.WinForms.Forms.ToolBar
 
 				if (content != null)
 				{
-					swf.ToolStrip control = ((swf.ToolStrip)content.ControlObject);
+					swf.ToolStrip control = (swf.ToolStrip)content.ControlObject;
 					control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), dock.ToString());
 					this.Control = control;
 				}

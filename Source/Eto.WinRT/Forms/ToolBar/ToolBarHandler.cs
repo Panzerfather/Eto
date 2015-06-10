@@ -13,7 +13,7 @@ namespace Eto.WinRT.Forms.ToolBar
 	/// </summary>
 	/// <copyright>(c) 2015 by Nicolas Pöhlmann</copyright>
 	/// <license type="BSD-3">See LICENSE for full terms</license>
-	public class ToolBarHandler : WpfControl<swc.CommandBar, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
+	public class ToolBarHandler : WidgetHandler<swc.CommandBar, Eto.Forms.ToolBar, Eto.Forms.ToolBar.ICallback>, Eto.Forms.ToolBar.IHandler
 	{
 		Size imageSize = new Size(16, 16);
 

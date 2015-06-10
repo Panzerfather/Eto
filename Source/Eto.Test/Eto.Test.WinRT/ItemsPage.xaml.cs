@@ -57,7 +57,7 @@ namespace Eto.Test.WinRT
 			{
 				var toolBarView = new ToolBarView
 				{
-					Content = new ToolBar
+					ToolBar = new ToolBar
 					{
 						ImageScalingSize = new Eto.Drawing.Size(32, 32),
 						Items = 
@@ -72,9 +72,27 @@ namespace Eto.Test.WinRT
 				};
 
 				this.BottomAppBar = toolBarView.ControlObject as CommandBar;
-			}
-			this.BottomAppBar.IsOpen = true;
-			this.BottomAppBar.IsSticky = true;
+                this.BottomAppBar.IsOpen = true;
+                this.BottomAppBar.IsSticky = true;
+
+			} else {
+
+				ToolBar toolBar = new ToolBar
+				{
+					ImageScalingSize = new Eto.Drawing.Size(32, 32),
+					Items = 
+					{
+						new ButtonToolItem { Text = "Button1", Image = TestIcons.TestImage, ToolTip="Button1" },
+						new ButtonToolItem { Text = "Button2", Image = TestIcons.TestImage, ToolTip="Button2" },
+						new ButtonToolItem { Text = "Button3", Image = TestIcons.TestImage, ToolTip="Button3" },
+						new ButtonToolItem { Text = "Button4", Image = TestIcons.TestImage, ToolTip="Button4" }
+					}
+				};
+
+				this.TopAppBar = toolBar.ControlObject as CommandBar;
+                this.TopAppBar.IsOpen = true;
+                this.TopAppBar.IsSticky = true;
+            }
 
 			this.navigationHelper = new NavigationHelper(this);
 			this.navigationHelper.LoadState += navigationHelper_LoadState;
