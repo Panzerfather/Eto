@@ -11,6 +11,7 @@ namespace Eto.WinForms.Forms.ToolBar
 		Eto.Forms.ToolBar content;
 		DockPosition dock = DockPosition.None;
 		static readonly object minimumSizeKey = new object();
+		Orientation orientation = Orientation.Horizontal;
 
 		public ToolBarViewHandler()
 		{
@@ -19,7 +20,8 @@ namespace Eto.WinForms.Forms.ToolBar
 				AutoSize = true,
 				Dock = swf.DockStyle.Fill,
 				Font = sd.SystemFonts.DefaultFont,
-				ForeColor = sd.SystemColors.ControlText
+				ForeColor = sd.SystemColors.ControlText,
+				LayoutStyle = swf.ToolStripLayoutStyle.HorizontalStackWithOverflow
 			};
 		}
 
@@ -57,6 +59,27 @@ namespace Eto.WinForms.Forms.ToolBar
 			}
 		}
 
+		public Orientation Orientation
+		{
+			get { return orientation; }
+			set
+			{
+				switch (value)
+				{
+					case Orientation.Horizontal:
+						this.Control.LayoutStyle = swf.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+						break;
+					case Orientation.Vertical:
+						this.Control.LayoutStyle = swf.ToolStripLayoutStyle.VerticalStackWithOverflow;
+						break;
+					default:
+						break;
+				}
+
+				orientation = value;
+			}
+		}
+
 		public virtual Padding Padding
 		{
 			get { return this.Control.Padding.ToEto(); }
@@ -86,7 +109,6 @@ namespace Eto.WinForms.Forms.ToolBar
 				if (content != null)
 				{
 					swf.ToolStrip control = (swf.ToolStrip)content.ControlObject;
-					control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), dock.ToString());
 					this.Control = control;
 				}
 

@@ -13,33 +13,30 @@ namespace Eto.Wpf.Forms.ToolBar
 	/// </summary>
 	/// <copyright>(c) 2015 by Nicolas Pöhlmann</copyright>
 	/// <license type="BSD-3">See LICENSE for full terms</license>
-	public class ToolBarViewHandler : WpfControl<swc.ToolBar, ToolBarView, ToolBarView.ICallback>, ToolBarView.IHandler
+	public class ToolBarViewHandler : WpfContainer<swc.ToolBarTray, ToolBarView, ToolBarView.ICallback>, ToolBarView.IHandler
 	{
 		Eto.Forms.ToolBar content;
 		ContextMenu contextMenu;
 		DockPosition dock = DockPosition.None;
-		static readonly object minimumSizeKey = new object();
+		Orientation orientation = Orientation.Horizontal;
 
 		public ToolBarViewHandler()
 		{
-			Control = new swc.ToolBar();
+			Control  = new swc.ToolBarTray
+			{
+				Orientation = swc.Orientation.Horizontal
+			};
 		}
 
 		protected override void Initialize()
 		{
 			base.Initialize();
 		}
-		
-		public Size ClientSize
+
+		public override Color BackgroundColor
 		{
-			get
-			{
-				return Control.GetSize();
-			}
-			set
-			{
-				Control.SetSize(value);
-			}
+			get { return Control.Background.ToEtoColor(); }
+			set { Control.Background = value.ToWpfBrush(Control.Background); }
 		}
 
 		public Control Content
@@ -69,29 +66,38 @@ namespace Eto.Wpf.Forms.ToolBar
 			}
 		}
 
-		public Size MinimumSize
+		public Orientation Orientation
 		{
-			get { return Widget.Properties.Get<Size?>(minimumSizeKey) ?? Size.Empty; }
+			get { return orientation; }
 			set
 			{
-				if (value != MinimumSize)
-				{
-					Widget.Properties[minimumSizeKey] = value;
-					Control.MinHeight = value.Height;
-					Control.MinWidth = value.Width;
-				}
+				this.Control.Orientation = (swc.Orientation)Enum.Parse(typeof(swc.Orientation), value.ToString());
+				orientation = value;
 			}
 		}
 
 		public virtual Padding Padding
 		{
-			get { return this.Control.Padding.ToEto(); }
-			set { this.Control.Padding = value.ToWpf(); }
+			get
+			{
+				if (this.Control.ToolBars.Count > 0)
+					return this.Control.ToolBars[0].Padding.ToEto();
+				return new Padding();
+
+			}
+			set
+			{
+				if (this.Control.ToolBars.Count > 0)
+					this.Control.ToolBars[0].Padding = value.ToWpf();
+			}
 		}
 
-		public bool RecurseToChildren
+		public override void Remove(sw.FrameworkElement child)
 		{
-			get { return true; }
+			if (Control.ToolBars.Contains((swc.ToolBar)child))
+			{
+				Control.ToolBars.Remove((swc.ToolBar)child);
+			}
 		}
 
 		public Eto.Forms.ToolBar ToolBar
@@ -104,7 +110,7 @@ namespace Eto.Wpf.Forms.ToolBar
 
 				if (content != null)
 				{
-					this.Control = null;
+					this.Control.ToolBars.Remove((swc.ToolBar)content.ControlObject);
 				}
 
 				content = value;
@@ -112,8 +118,7 @@ namespace Eto.Wpf.Forms.ToolBar
 				if (content != null)
 				{
 					swc.ToolBar control = (swc.ToolBar)content.ControlObject;
-					//control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), value.ToString());
-					this.Control = control;
+					this.Control.ToolBars.Add((swc.ToolBar)content.ControlObject);
 				}
 
 				if (Widget.Loaded)

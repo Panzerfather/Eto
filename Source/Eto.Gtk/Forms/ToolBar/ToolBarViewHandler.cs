@@ -10,10 +10,14 @@ namespace Eto.GtkSharp.Forms.ToolBar
 		ContextMenu contextMenu;
 		DockPosition dock = DockPosition.None;
 		Size minimumSize;
-		
+		Orientation orientation = Orientation.Horizontal;
+
 		public ToolBarViewHandler()
 		{
-			Control = new Gtk.Toolbar();
+			Control = new Gtk.Toolbar
+			{
+				Orientation = Gtk.Orientation.Horizontal
+			};
 		}
 
 		protected override void Initialize()
@@ -93,6 +97,16 @@ namespace Eto.GtkSharp.Forms.ToolBar
 #if GTK3
 				ContainerControl.SetSizeRequest(value.Width > 0 ? value.Width : -1, value.Height > 0 ? value.Height : -1);
 #endif
+			}
+		}
+
+		public Orientation Orientation
+		{
+			get { return orientation; }
+			set
+			{
+				this.Control.Orientation = (Gtk.Orientation)Enum.Parse(typeof(Gtk.Orientation), value.ToString());
+				orientation = value;
 			}
 		}
 

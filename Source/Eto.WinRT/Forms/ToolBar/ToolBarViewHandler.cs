@@ -13,10 +13,11 @@ namespace Eto.WinRT.Forms.ToolBar
 	/// <license type="BSD-3">See LICENSE for full terms</license>
 	public class ToolBarViewHandler : WpfControl<swc.CommandBar, ToolBarView, ToolBarView.ICallback>, ToolBarView.IHandler
 	{
-        Eto.Forms.ToolBar content;
+		Eto.Forms.ToolBar content;
 		ContextMenu contextMenu;
 		DockPosition dock = DockPosition.None;
 		static readonly object minimumSizeKey = new object();
+		Orientation orientation = Orientation.Horizontal;
 
 		public ToolBarViewHandler()
 		{
@@ -44,11 +45,11 @@ namespace Eto.WinRT.Forms.ToolBar
 			}
 		}
 
-        public Control Content
-        {
-            get { return null; }
-            set { }
-        }
+		public Control Content
+		{
+			get { return null; }
+			set { }
+		}
 
 		public ContextMenu ContextMenu
 		{
@@ -64,15 +65,15 @@ namespace Eto.WinRT.Forms.ToolBar
 			}
 		}
 
-        public DockPosition Dock
-        {
-            get { return dock; }
-            set
-            {
-                //this.Control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), value.ToString());
-                dock = value;
-            }
-        }
+		public DockPosition Dock
+		{
+			get { return dock; }
+			set
+			{
+				//this.Control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), value.ToString());
+				dock = value;
+			}
+		}
 
 		public Size MinimumSize
 		{
@@ -87,43 +88,52 @@ namespace Eto.WinRT.Forms.ToolBar
 				}
 			}
 		}
-		
+
+		public Orientation Orientation
+		{
+			get { return orientation; }
+			set
+			{
+				//this.Control.Orientation = (swc.Orientation)Enum.Parse(typeof(swc.Orientation), value.ToString());
+				orientation = value;
+			}
+		}
+
 		public virtual Padding Padding
 		{
 			get { return this.Control.Padding.ToEto(); }
 			set { this.Control.Padding = value.ToWpf(); }
 		}
-		
+
 		public bool RecurseToChildren
 		{
 			get { return true; }
 		}
 
-        public Eto.Forms.ToolBar ToolBar
-        {
-            get { return content; }
-            set
-            {
-                if (Widget.Loaded)
-                    SuspendLayout();
+		public Eto.Forms.ToolBar ToolBar
+		{
+			get { return content; }
+			set
+			{
+				if (Widget.Loaded)
+					SuspendLayout();
 
-                if (content != null)
-                {
-                    this.Control = null;
-                }
+				if (content != null)
+				{
+					this.Control = null;
+				}
 
-                content = value;
+				content = value;
 
-                if (content != null)
-                {
-                    swc.CommandBar control = (swc.CommandBar)content.ControlObject;
-                    //control.Dock = (swf.DockStyle)Enum.Parse(typeof(swf.DockStyle), value.ToString());
-                    this.Control = control;
-                }
+				if (content != null)
+				{
+					swc.CommandBar control = (swc.CommandBar)content.ControlObject;
+					this.Control = control;
+				}
 
-                if (Widget.Loaded)
-                    ResumeLayout();
-            }
-        }
+				if (Widget.Loaded)
+					ResumeLayout();
+			}
+		}
 	}
 }

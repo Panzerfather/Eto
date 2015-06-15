@@ -36,27 +36,6 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
-		/// Gets or sets the tool bar for the control.
-		/// </summary>
-		/// <remarks>
-		/// Note that each control can only have a single tool bar
-		/// </remarks>
-		/// <value>The tool bar for the window</value>
-		public ToolBar ToolBar
-		{
-			get { return Handler.ToolBar; }
-			set
-			{
-				var toolbar = Handler.ToolBar;
-				if (toolbar != null)
-					toolbar.OnUnLoad(EventArgs.Empty);
-				Handler.ToolBar = value;
-				if (value != null)
-					value.OnLoad(EventArgs.Empty);
-			}
-		}
-
-		/// <summary>
 		/// Gets or sets the docking position for the <see cref="ToolBarView"/>.
 		/// </summary>
 		/// <remarks>
@@ -80,6 +59,37 @@ namespace Eto.Forms
 		}
 
 		/// <summary>
+		/// Gets or sets the orientation of the <see cref="ToolBarView"/>.
+		/// </summary>
+		/// <value>The ToolBarView orientation.</value>
+		public Orientation Orientation
+		{
+			get { return Handler.Orientation; }
+			set { Handler.Orientation = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the tool bar for the control.
+		/// </summary>
+		/// <remarks>
+		/// Note that each control can only have a single tool bar
+		/// </remarks>
+		/// <value>The tool bar for the window</value>
+		public ToolBar ToolBar
+		{
+			get { return Handler.ToolBar; }
+			set
+			{
+				var toolbar = Handler.ToolBar;
+				if (toolbar != null)
+					toolbar.OnUnLoad(EventArgs.Empty);
+				Handler.ToolBar = value;
+				if (value != null)
+					value.OnLoad(EventArgs.Empty);
+			}
+		}
+
+		/// <summary>
 		/// Handler interface for the <see cref="ToolBarView"/>
 		/// </summary>
 		public new interface IHandler : Panel.IHandler
@@ -93,6 +103,12 @@ namespace Eto.Forms
 			/// </remarks>
 			/// <value>The dock hint.</value>
 			DockPosition Dock { get; set; }
+
+			/// <summary>
+			/// Gets or sets the orientation of the <see cref="ToolBarView"/>.
+			/// </summary>
+			/// <value>The ToolBarView orientation.</value>
+			Orientation Orientation { get; set; }
 
 			/// <summary>
 			/// Gets or sets the tool bar for the window.

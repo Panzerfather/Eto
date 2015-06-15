@@ -124,7 +124,7 @@ namespace Eto.Test
 						},
 						new DockViewItem
 						{
-							Content = new ToolBarView { ToolBar = this.CreateToolBarRight(), Dock = DockPosition.Bottom },
+							Content = new ToolBarView { ToolBar = this.CreateToolBarRight(), Dock = DockPosition.Bottom, Orientation = Orientation.Vertical },
 							Dock = DockPosition.Right
 						},
 						new DockViewItem

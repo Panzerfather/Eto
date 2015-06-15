@@ -70,7 +70,7 @@
     <Compile Include="Forms\Controls\TreeView.cs" />
     <Compile Include="Forms\DataStoreVirtualCollection.cs" />
     <Compile Include="Forms\Controls\DockView.cs" />
-    <Compile Include="Forms\Controls\Dock.cs" />
+    <Compile Include="Forms\Dock.cs" />
     <Compile Include="Forms\Layout\DynamicControl.cs" />
     <Compile Include="Forms\Layout\DynamicItem.cs" />
     <Compile Include="Forms\Layout\DynamicTable.cs" />
