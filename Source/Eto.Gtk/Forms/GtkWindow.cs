@@ -16,26 +16,55 @@ namespace Eto.GtkSharp.Forms
 		Gtk.Window Control { get; }
 	}
 
-	public abstract class GtkWindow<TControl, TWidget, TCallback> : GtkPanel<TControl, TWidget, TCallback>, Window.IHandler, IGtkWindow
-		where TControl : Gtk.Window
-		where TWidget : Window
-		where TCallback : Window.ICallback
+	public class GtkShrinkableVBox : Gtk.VBox
 	{
-		Gtk.AccelGroup accelGroup;
+		public GtkShrinkableVBox()
+		{
+		}
+
+		public GtkShrinkableVBox(Gtk.Widget child)
+		{
+			if (child != null)
+				PackStart(child, true, true, 0);
+		}
+
+#if GTK3
+		protected override void OnGetPreferredWidth(out int minimum_width, out int natural_width)
+		{
+			base.OnGetPreferredWidth(out minimum_width, out natural_width);
+			minimum_width = 0;
+		}
+
+		protected override void OnGetPreferredHeight(out int minimum_height, out int natural_height)
+		{
+			base.OnGetPreferredHeight(out minimum_height, out natural_height);
+			minimum_height = 0;
+		}
+#endif
+	}
+
+
+	public abstract class GtkWindow<TControl, TWidget, TCallback> : GtkPanel<TControl, TWidget, TCallback>, Window.IHandler, IGtkWindow
+		where TControl: Gtk.Window
+		where TWidget: Window
+		where TCallback: Window.ICallback
+	{
+		Gtk.VBox vbox;
 		readonly Gtk.VBox actionvbox;
-		Gtk.Box containerBox;
-		Point? currentLocation;
-		Icon icon;
-		Size? initialSize;
-		MenuBar menuBar;
+		readonly Gtk.Box topToolbarBox;
 		Gtk.Box menuBox;
+		Gtk.Box containerBox;
+		readonly Gtk.Box bottomToolbarBox;
+		MenuBar menuBar;
+		Icon icon;
+		Eto.Forms.ToolBar toolBar;
+		Gtk.AccelGroup accelGroup;
 		Rectangle? restoreBounds;
+		Point? currentLocation;
+		Size? initialSize;
 		WindowState state;
 		WindowStyle style;
-		Eto.Forms.ToolBar toolBar;
 		bool topmost;
-		readonly Gtk.Alignment toolbarBox;
-		Gtk.VBox vbox;
 
 		protected GtkWindow()
 		{
@@ -43,19 +72,22 @@ namespace Eto.GtkSharp.Forms
 			actionvbox = new Gtk.VBox();
 
 			menuBox = new Gtk.HBox();
-			toolbarBox = new Gtk.Alignment(0, 0, 1, 1);
+			topToolbarBox = new Gtk.VBox();
 
-			containerBox = new Gtk.VBox();
+			containerBox = new GtkShrinkableVBox();
 			containerBox.Visible = true;
 
+			bottomToolbarBox = new Gtk.VBox();
+
 			actionvbox.PackStart(menuBox, false, false, 0);
-			actionvbox.PackStart(toolbarBox, false, false, 0);
+			actionvbox.PackStart(topToolbarBox, false, false, 0);
 			vbox.PackStart(containerBox, true, true, 0);
+			vbox.PackStart(bottomToolbarBox, false, false, 0);
 		}
 
 		protected override Color DefaultBackgroundColor
 		{
-			get { return Control.Style.Background(Gtk.StateType.Normal).ToEto(); }
+			get { return Control.GetBackground(); }
 		}
 
 		protected override bool UseMinimumSizeRequested
@@ -92,12 +124,12 @@ namespace Eto.GtkSharp.Forms
 			get { return Control.Resizable; }
 			set
 			{
-				Control.Resizable = value;
-#if GTK2
+				Control.Resizable = value; 
+				#if GTK2
 				Control.AllowGrow = value;
-#else
+				#else
 				Control.HasResizeGrip = value;
-#endif
+				#endif
 			}
 		}
 
@@ -115,7 +147,7 @@ namespace Eto.GtkSharp.Forms
 		{
 			get { return topmost; }
 			set
-			{
+			{ 
 				if (topmost != value)
 				{
 					topmost = value;
@@ -128,7 +160,7 @@ namespace Eto.GtkSharp.Forms
 		{
 			get { return style; }
 			set
-			{
+			{ 
 				if (style != value)
 				{
 					style = value;
@@ -152,13 +184,15 @@ namespace Eto.GtkSharp.Forms
 		{
 			get
 			{
-				return Control.GdkWindow != null ? Control.GdkWindow.FrameExtents.Size.ToEto() : initialSize ?? Control.DefaultSize.ToEto();
+				var window = Control.GetWindow();
+				return window != null ? window.FrameExtents.Size.ToEto() : initialSize ?? Control.DefaultSize.ToEto();
 			}
 			set
 			{
-				if (Control.GdkWindow != null)
+				var window = Control.GetWindow();
+				if (window != null)
 				{
-					var diff = Control.GdkWindow.FrameExtents.Size.ToEto() - Control.Allocation.Size.ToEto();
+					var diff = window.FrameExtents.Size.ToEto() - Control.Allocation.Size.ToEto();
 					Control.Resize(value.Width - diff.Width, value.Height - diff.Height);
 				}
 				else
@@ -172,27 +206,35 @@ namespace Eto.GtkSharp.Forms
 		void HandleControlRealized(object sender, EventArgs e)
 		{
 			var allocation = Control.Allocation.Size;
-			// set initial minimum size
-			Control.SetSizeRequest(MinimumSize.Width, MinimumSize.Height);
-#if GTK2
-			Control.AllowShrink = false;
-#endif
+			var minSize = MinimumSize;
 
 			if (initialSize != null)
 			{
-				var frameExtents = Control.GdkWindow.FrameExtents.Size.ToEto();
+				var gdkWindow = Control.GetWindow();
+				var frameExtents = gdkWindow.FrameExtents.Size.ToEto();
 				// HACK: get twice to get 'real' size? Ubuntu 14.04 returns inflated size the first call.
-				frameExtents = Control.GdkWindow.FrameExtents.Size.ToEto();
+				frameExtents = gdkWindow.FrameExtents.Size.ToEto();
 
 				var diff = frameExtents - Control.Allocation.Size.ToEto();
-				Control.Resize(initialSize.Value.Width - diff.Width, initialSize.Value.Height - diff.Height);
+				allocation.Width = initialSize.Value.Width - diff.Width;
+				allocation.Height = initialSize.Value.Height - diff.Height;
 				initialSize = null;
+			}
+
+			if (Resizable)
+			{
+				Control.Resize(allocation.Width, allocation.Height);
 			}
 			else
 			{
-				// resize back to allocation
-				Control.Resize(allocation.Width, allocation.Height);
+				// when not resizable, Control.Resize doesn't work
+				minSize.Width = Math.Max(minSize.Width, allocation.Width);
+				minSize.Height = Math.Max(minSize.Height, allocation.Height);
 			}
+
+			// set initial minimum size
+			Control.SetSizeRequest(minSize.Width, minSize.Height);
+
 			containerBox.SetSizeRequest(-1, -1);
 
 			// only do this the first time
@@ -203,7 +245,7 @@ namespace Eto.GtkSharp.Forms
 		{
 			get
 			{
-				return containerBox.IsRealized ? containerBox.Allocation.Size.ToEto() : containerBox.SizeRequest().ToEto();
+				return containerBox.IsRealized ? containerBox.Allocation.Size.ToEto() : containerBox.GetPreferredSize().ToEto();
 			}
 			set
 			{
@@ -222,13 +264,16 @@ namespace Eto.GtkSharp.Forms
 		protected override void Initialize()
 		{
 			base.Initialize();
-
+			
 			HandleEvent(Window.WindowStateChangedEvent); // to set restore bounds properly
 			HandleEvent(Window.ClosingEvent); // to chain application termination events
 			HandleEvent(Eto.Forms.Control.SizeChangedEvent); // for RestoreBounds
 			HandleEvent(Window.LocationChangedEvent); // for RestoreBounds
 			Control.SetSizeRequest(-1, -1);
 			Control.Realized += HandleControlRealized;
+			#if GTK2
+			Control.AllowShrink = false;
+			#endif
 		}
 
 		public override void AttachEvent(string id)
@@ -408,7 +453,7 @@ namespace Eto.GtkSharp.Forms
 				else
 				{
 					var windows = Gdk.Screen.Default.ToplevelWindows;
-					if (windows.Count(r => r.IsViewable) == 1 && ReferenceEquals(windows.First(r => r.IsViewable), Control.GdkWindow))
+					if (windows.Count(r => r.IsViewable) == 1 && ReferenceEquals(windows.First(r => r.IsViewable), Control.GetWindow()))
 					{
 						var app = ((ApplicationHandler)Application.Instance.Handler);
 						app.Callback.OnTerminating(app.Widget, args);
@@ -467,11 +512,11 @@ namespace Eto.GtkSharp.Forms
 			set
 			{
 				if (toolBar != null)
-					toolbarBox.Remove((Gtk.Widget)toolBar.ControlObject);
+					topToolbarBox.Remove((Gtk.Widget)toolBar.ControlObject);
 				toolBar = value;
 				if (toolBar != null)
-					toolbarBox.Add((Gtk.Widget)toolBar.ControlObject);
-				toolbarBox.ShowAll();
+					topToolbarBox.Add((Gtk.Widget)toolBar.ControlObject);
+				topToolbarBox.ShowAll();
 			}
 		}
 
@@ -505,14 +550,15 @@ namespace Eto.GtkSharp.Forms
 		{
 			get
 			{
-				if (Control.GdkWindow == null)
-					return state;
+				var gdkWindow = Control.GetWindow();
+				if (gdkWindow == null)
+					return state;	
 
-				if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Iconified))
+				if (gdkWindow.State.HasFlag(Gdk.WindowState.Iconified))
 					return WindowState.Minimized;
-				if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Maximized))
+				if (gdkWindow.State.HasFlag(Gdk.WindowState.Maximized))
 					return WindowState.Maximized;
-				if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Fullscreen))
+				if (gdkWindow.State.HasFlag(Gdk.WindowState.Fullscreen))
 					return WindowState.Maximized;
 				return WindowState.Normal;
 			}
@@ -521,15 +567,15 @@ namespace Eto.GtkSharp.Forms
 				if (state != value)
 				{
 					state = value;
-
+					var gdkWindow = Control.GetWindow();				
 					switch (value)
 					{
 						case WindowState.Maximized:
-							if (Control.GdkWindow != null)
+							if (gdkWindow != null)
 							{
-								if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Fullscreen))
+								if (gdkWindow.State.HasFlag(Gdk.WindowState.Fullscreen))
 									Control.Unfullscreen();
-								if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Iconified))
+								if (gdkWindow.State.HasFlag(Gdk.WindowState.Iconified))
 									Control.Deiconify();
 							}
 							Control.Maximize();
@@ -538,13 +584,13 @@ namespace Eto.GtkSharp.Forms
 							Control.Iconify();
 							break;
 						case WindowState.Normal:
-							if (Control.GdkWindow != null)
+							if (gdkWindow != null)
 							{
-								if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Fullscreen))
+								if (gdkWindow.State.HasFlag(Gdk.WindowState.Fullscreen))
 									Control.Unfullscreen();
-								if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Maximized))
+								if (gdkWindow.State.HasFlag(Gdk.WindowState.Maximized))
 									Control.Unmaximize();
-								if (Control.GdkWindow.State.HasFlag(Gdk.WindowState.Iconified))
+								if (gdkWindow.State.HasFlag(Gdk.WindowState.Iconified))
 									Control.Deiconify();
 							}
 							break;
@@ -574,7 +620,7 @@ namespace Eto.GtkSharp.Forms
 			get
 			{
 				var screen = Control.Screen;
-				var gdkWindow = Control.GdkWindow;
+				var gdkWindow = Control.GetWindow();
 				if (screen != null && gdkWindow != null)
 				{
 					var monitor = screen.GetMonitorAtWindow(gdkWindow);
@@ -591,8 +637,9 @@ namespace Eto.GtkSharp.Forms
 
 		public void SendToBack()
 		{
-			if (Control.GdkWindow != null)
-				Control.GdkWindow.Lower();
+			var gdkWindow = Control.GetWindow();
+			if (gdkWindow != null)
+				gdkWindow.Lower();
 		}
 	}
 }
